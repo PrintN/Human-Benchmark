@@ -111,21 +111,6 @@ class FAQScreen extends StatelessWidget {
             ),
             ExpansionTile(
               title: Text(
-                'Where can I contact Human Benchmark?',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'If you have any questions or encounter any issues, feel free to contact us at support@humanbenchmark.com.',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ),
-              ],
-            ),
-            ExpansionTile(
-              title: Text(
                 'Who made this app?',
                 style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
               ),

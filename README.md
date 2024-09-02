@@ -14,6 +14,7 @@ Human Benchmark is a mobile application designed to test and improve your cognit
 - **Comprehensive Testing**: Test yourself in various areas, including Reaction Time, Typing, Chimp Test, Number Memory, Hearing Test, Verbal Memory, Sequence Memory, Visual Memory, and Aim Training.
 - **Statistics**: Compare your performance to others around the world.
 - **Share Your Statistics**: Easily share an image of your statistics with friends or on social media.
+- **Offline Access**: Enjoy the app fully without needing an internet connection; it's 100% offline.
 
 ## Acknowledgments
 
