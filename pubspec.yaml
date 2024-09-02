@@ -1,0 +1,53 @@
+name: humanbenchmark
+description: "An app to test your abilities."
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  fl_chart: ^0.69.0
+  shared_preferences: ^2.3.2
+  share_plus: ^10.0.2
+  google_mobile_ads: ^5.1.0
+  just_audio: ^0.9.37
+
+  path_provider: any
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  flutter_launcher_icons: ^0.13.1
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/sentences.json
+    - assets/words.json
+    - assets/human-benchmark.png
+    - assets/human-benchmark-no-background.png
+    - assets/target.png
+    - assets/frequencies/250.wav
+    - assets/frequencies/500.wav
+    - assets/frequencies/1000.wav
+    - assets/frequencies/2000.wav
+    - assets/frequencies/4000.wav
+    - assets/frequencies/8000.wav
+    - assets/frequencies/10000.wav
+    - assets/frequencies/12000.wav
+    - assets/frequencies/14000.wav
+    - assets/frequencies/16000.wav
+    - assets/frequencies/18000.wav
+    - assets/frequencies/20000.wav
+    - assets/frequencies/22000.wav
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/human-benchmark.png"
