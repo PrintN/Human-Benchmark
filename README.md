@@ -22,4 +22,4 @@ Thanks to the Flutter community for providing great resources and support. This 
 
 ## License
 
-This project is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License. For more details, please read the [LICENSE](LICENSE) file.
+This project is licensed under the GNU General Public License v3.0 License. For more details, please read the [LICENSE](LICENSE) file.
