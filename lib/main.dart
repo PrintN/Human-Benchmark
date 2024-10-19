@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'statistics.dart';
 import 'faq.dart';
@@ -16,7 +15,6 @@ import 'aim_trainer.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  MobileAds.instance.initialize(); 
   runApp(const MyApp());
 }
 
@@ -62,7 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    AdManager.initialize(); 
     _loadLayoutPreference();
   }
 
@@ -79,7 +76,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _onButtonClick(Widget destination) {
-    AdManager.handleClick(); 
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => destination),
@@ -367,50 +363,5 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     );
-  }
-}
-
-class AdManager {
-  static InterstitialAd? _interstitialAd;
-  static int _clickCount = 0;
-
-  static void initialize() {
-    _loadInterstitialAd();
-  }
-
-  static void _loadInterstitialAd() {
-    InterstitialAd.load(
-      adUnitId: 'ca-app-pub-3940256099942544/1033173712',
-      request: const AdRequest(),
-      adLoadCallback: InterstitialAdLoadCallback(
-        onAdLoaded: (ad) {
-          _interstitialAd = ad;
-        },
-        onAdFailedToLoad: (error) {
-          print('Interstitial ad failed to load: ${error.message}');
-        },
-      ),
-    );
-  }
-
-  static void handleClick() {
-    _clickCount++;
-    if (_clickCount >= 4) {
-      _clickCount = 0;
-      if (_interstitialAd != null) {
-        _interstitialAd!.fullScreenContentCallback = FullScreenContentCallback(
-          onAdDismissedFullScreenContent: (ad) {
-            ad.dispose();
-            _loadInterstitialAd(); 
-          },
-          onAdFailedToShowFullScreenContent: (ad, error) {
-            ad.dispose();
-          },
-        );
-        _interstitialAd!.show();
-      } else {
-        print('Interstitial ad is not loaded yet');
-      }
-    }
   }
 }

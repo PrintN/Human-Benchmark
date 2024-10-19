@@ -6,11 +6,6 @@
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
 
-        <!-- Add AdMob App ID here -->
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="ca-app-pub-3940256099942544~3347511713"/> <!-- Replace with your real AdMob App ID -->
-
         <activity
             android:name=".MainActivity"
             android:exported="true"

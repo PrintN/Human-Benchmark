@@ -14,7 +14,6 @@ dependencies:
   fl_chart: ^0.69.0
   shared_preferences: ^2.3.2
   share_plus: ^10.0.2
-  google_mobile_ads: ^5.1.0
   just_audio: ^0.9.37
 
   path_provider: any
