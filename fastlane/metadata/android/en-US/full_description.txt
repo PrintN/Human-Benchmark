@@ -1,0 +1,10 @@
+Human Benchmark is a mobile app that lets you test your cognitive abilities through a series of fun and engaging challenges. Track your skills in various areas and see how you compare to others worldwide.
+
+Features:
+
+* Diverse Tests - Challenge yourself with tests in Reaction Time, Typing, Chimp Test, Number Memory, Hearing, Verbal Memory, Sequence Memory, Visual Memory, and Aim Training.
+* Global Comparison - View your performance percentage compared to users around the world.
+* Share Results - Easily share your statistics with friends or on social media.
+* Offline Functionality - Enjoy the app fully offline, allowing for seamless testing anytime, anywhere.
+
+Whether for personal interest or casual competition, Human Benchmark provides a quick and enjoyable way to explore and evaluate your cognitive skills!

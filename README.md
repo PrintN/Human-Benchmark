@@ -3,10 +3,10 @@
 Human Benchmark is a mobile application designed to test and improve your cognitive abilities through a series of fun and challenging tests. The app offers various tests, including memory, reaction time, pattern recognition, aim training, and typing tests, each designed to measure different aspects of your mental capabilities.
 
 <div align="center">
-    <img src="screenshots/1.png" width="230" height="400" style="margin: 5px;">
-    <img src="screenshots/2.png" width="230" height="400" style="margin: 5px;">
-    <img src="screenshots/3.png" width="230" height="400" style="margin: 5px;">
-    <img src="screenshots/4.png" width="230" height="400" style="margin: 5px;">
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1.png" width="230" height="400" style="margin: 5px;">
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2.png" width="230" height="400" style="margin: 5px;">
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3.png" width="230" height="400" style="margin: 5px;">
+    <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/4.png" width="230" height="400" style="margin: 5px;">
 </div>
 
 ## Features
