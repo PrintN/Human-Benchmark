@@ -1,4 +1,4 @@
-package com.example.humanbenchmark
+package io.github.printn.humanbenchmark
 
 import io.flutter.embedding.android.FlutterActivity
 
