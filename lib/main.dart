@@ -12,6 +12,7 @@ import 'verbal_memory.dart';
 import 'sequence_memory.dart';
 import 'visual_memory.dart';
 import 'aim_trainer.dart';
+import 'info_retention.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -55,7 +56,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool _isGridView = true; 
+  bool _isGridView = true;
 
   @override
   void initState() {
@@ -66,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _loadLayoutPreference() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      _isGridView = prefs.getBool('isGridView') ?? true; 
+      _isGridView = prefs.getBool('isGridView') ?? true;
     });
   }
 
@@ -161,7 +162,8 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StatisticsScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const StatisticsScreen()),
                 );
               },
             ),
@@ -245,6 +247,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.ads_click,
           const AimTrainerScreen(),
         ),
+        _buildGridButton(
+          context,
+          'Info Retention',
+          Icons.menu_book_outlined,
+          const InfoRetentionScreen(),
+        ),
       ],
     );
   }
@@ -307,11 +315,18 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.ads_click,
           const AimTrainerScreen(),
         ),
+        _buildListButton(
+          context,
+          'Info Retention',
+          Icons.menu_book_outlined,
+          const InfoRetentionScreen(),
+        ),
       ],
     );
   }
 
-  Widget _buildGridButton(BuildContext context, String title, IconData icon, Widget destination) {
+  Widget _buildGridButton(
+      BuildContext context, String title, IconData icon, Widget destination) {
     return GestureDetector(
       onTap: () => _onButtonClick(destination),
       child: Container(
@@ -339,7 +354,10 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold),
             ),
           ],
         ),
@@ -347,12 +365,16 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildListButton(BuildContext context, String title, IconData icon, Widget destination) {
+  Widget _buildListButton(
+      BuildContext context, String title, IconData icon, Widget destination) {
     return ListTile(
       leading: Icon(icon, size: 50.0, color: const Color(0xFF004D99)),
       title: Text(
         title,
-        style: const TextStyle(fontSize: 20.0, color: Color(0xFF004D99), fontWeight: FontWeight.w500),
+        style: const TextStyle(
+            fontSize: 20.0,
+            color: Color(0xFF004D99),
+            fontWeight: FontWeight.w500),
       ),
       onTap: () => _onButtonClick(destination),
       trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF004D99)),
@@ -361,7 +383,8 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.circular(12.0),
         side: const BorderSide(color: Color(0xFFE0E0E0)),
       ),
-      contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      contentPadding:
+          const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
     );
   }
 }

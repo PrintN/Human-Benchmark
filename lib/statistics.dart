@@ -17,6 +17,7 @@ import 'verbal_memory.dart';
 import 'sequence_memory.dart';
 import 'visual_memory.dart';
 import 'aim_trainer.dart';
+import 'info_retention.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -44,7 +45,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     await SequenceMemoryTestScreen.loadResults();
     await VisualMemoryTestScreen.loadResults();
     await AimTrainerScreen.loadResults();
-    setState(() {}); 
+    await InfoRetentionScreen.loadResults();
+    setState(() {});
   }
 
   @override
@@ -72,25 +74,193 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           );
         }
 
-        final List<int> reactionTimeValues = [0, 1, 15, 55, 25, 4, 0, 0, 0, 0, 0, 0, 100];
-        final List<int> typingSpeedValues = [35, 50, 30, 10, 4, 1, 0, 0, 0, 0, 0, 0, 0, 100];
-        final List<int> numberMemoryValues = [0, 4, 10, 50, 10, 5, 0, 0, 0, 0, 0, 0, 100];
-        final List<int> chimpTestValues = [0, 0, 0, 8, 8, 50, 40, 15, 7, 2, 0, 0, 0, 0, 100];
-        final List<int> hearingTestValues = [0, 0, 0, 0, 0, 0, 2, 10, 30, 45, 50, 20, 5, 1, 0, 100];
-        final List<int> verbalMemoryValues = [30, 50, 50, 25, 10, 7, 4, 3, 2, 1, 1, 0, 0, 0, 100];
-        final List<int> sequenceMemoryValues = [0, 4, 20, 10, 10, 12, 50, 50, 10, 7, 4, 3, 2, 1, 0, 0, 100];
-        final List<int> visualMemoryValues = [0, 1, 0, 0, 4, 7, 10, 50, 30, 40, 5, 0, 0, 0, 0, 0, 100];
-        final List<int> aimTrainerValues = [0, 7, 50, 40, 10, 5, 4, 3, 2, 1, 0, 0, 100];
+        final List<int> reactionTimeValues = [
+          0,
+          1,
+          15,
+          55,
+          25,
+          4,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> typingSpeedValues = [
+          35,
+          50,
+          30,
+          10,
+          4,
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> numberMemoryValues = [
+          0,
+          4,
+          10,
+          50,
+          10,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> chimpTestValues = [
+          0,
+          0,
+          0,
+          8,
+          8,
+          50,
+          40,
+          15,
+          7,
+          2,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> hearingTestValues = [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2,
+          10,
+          30,
+          45,
+          50,
+          20,
+          5,
+          1,
+          0,
+          100
+        ];
+        final List<int> verbalMemoryValues = [
+          30,
+          50,
+          50,
+          25,
+          10,
+          7,
+          4,
+          3,
+          2,
+          1,
+          1,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> sequenceMemoryValues = [
+          0,
+          4,
+          20,
+          10,
+          10,
+          12,
+          50,
+          50,
+          10,
+          7,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          100
+        ];
+        final List<int> visualMemoryValues = [
+          0,
+          1,
+          0,
+          0,
+          4,
+          7,
+          10,
+          50,
+          30,
+          40,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
+        final List<int> aimTrainerValues = [
+          0,
+          7,
+          50,
+          40,
+          10,
+          5,
+          4,
+          3,
+          2,
+          1,
+          0,
+          0,
+          100
+        ];
+        final List<int> infoRetentionValues = [
+          0,
+          7,
+          30,
+          50,
+          30,
+          5,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
 
-        final List<double> reactionTimeDistribution = _generateCustomDistribution(reactionTimeValues);
-        final List<double> typingSpeedDistribution = _generateCustomDistribution(typingSpeedValues);
-        final List<double> numberMemoryDistribution = _generateCustomDistribution(numberMemoryValues); 
-        final List<double> chimpTestDistribution = _generateCustomDistribution(chimpTestValues); 
-        final List<double> hearingTestDistribution = _generateCustomDistribution(hearingTestValues); 
-        final List<double> verbalMemoryDistribution = _generateCustomDistribution(verbalMemoryValues); 
-        final List<double> sequenceMemoryDistribution = _generateCustomDistribution(sequenceMemoryValues); 
-        final List<double> visualMemoryDistribution = _generateCustomDistribution(visualMemoryValues); 
-        final List<double> aimTrainerDistribution = _generateCustomDistribution(aimTrainerValues); 
+        final List<double> reactionTimeDistribution =
+            _generateCustomDistribution(reactionTimeValues);
+        final List<double> typingSpeedDistribution =
+            _generateCustomDistribution(typingSpeedValues);
+        final List<double> numberMemoryDistribution =
+            _generateCustomDistribution(numberMemoryValues);
+        final List<double> chimpTestDistribution =
+            _generateCustomDistribution(chimpTestValues);
+        final List<double> hearingTestDistribution =
+            _generateCustomDistribution(hearingTestValues);
+        final List<double> verbalMemoryDistribution =
+            _generateCustomDistribution(verbalMemoryValues);
+        final List<double> sequenceMemoryDistribution =
+            _generateCustomDistribution(sequenceMemoryValues);
+        final List<double> visualMemoryDistribution =
+            _generateCustomDistribution(visualMemoryValues);
+        final List<double> aimTrainerDistribution =
+            _generateCustomDistribution(aimTrainerValues);
+        final List<double> infoRetentionDistribution =
+            _generateCustomDistribution(infoRetentionValues);
 
         final List<double> reactionTimeResults = ReactionTimeScreen.results;
         final List<double> typingSpeedResults = TypingScreen.results;
@@ -98,60 +268,213 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         final List<int> chimpTestResults = ChimpScreen.results;
         final List<double> hearingTestResults = HearingTestScreen.results;
         final List<double> verbalMemoryResults = VerbalMemoryTestScreen.results;
-        final List<double> sequenceMemoryResults = SequenceMemoryTestScreen.results;
+        final List<double> sequenceMemoryResults =
+            SequenceMemoryTestScreen.results;
         final List<double> visualMemoryResults = VisualMemoryTestScreen.results;
         final List<double> aimTrainerResults = AimTrainerScreen.results;
+        final List<double> infoRetentionResults = InfoRetentionScreen.results;
 
-        final List<double> latestReactionTimeResults = _getLatestResults(reactionTimeResults);
+        final List<double> latestReactionTimeResults =
+            _getLatestResults(reactionTimeResults);
         final List<double> latestTypingSpeedResults = _getLatestResults(
           typingSpeedResults.map((e) => e.roundToDouble()).toList(),
         );
-        
+
         final double reactionTimeAverage = latestReactionTimeResults.isNotEmpty
-            ? latestReactionTimeResults.reduce((a, b) => a + b) / latestReactionTimeResults.length
+            ? latestReactionTimeResults.reduce((a, b) => a + b) /
+                latestReactionTimeResults.length
             : 0;
 
         final double typingSpeedAverage = latestTypingSpeedResults.isNotEmpty
-            ? latestTypingSpeedResults.reduce((a, b) => a + b) / latestTypingSpeedResults.length
+            ? latestTypingSpeedResults.reduce((a, b) => a + b) /
+                latestTypingSpeedResults.length
             : 0;
 
         final double numberMemoryAverage = numberMemoryResults.isNotEmpty
-            ? numberMemoryResults.reduce((a, b) => a + b) / numberMemoryResults.length.toDouble()
+            ? numberMemoryResults.reduce((a, b) => a + b) /
+                numberMemoryResults.length.toDouble()
             : 0;
 
         final double chimpTestAverage = chimpTestResults.isNotEmpty
-            ? chimpTestResults.reduce((a, b) => a + b) / chimpTestResults.length.toDouble()
+            ? chimpTestResults.reduce((a, b) => a + b) /
+                chimpTestResults.length.toDouble()
             : 0;
 
         final double hearingTestAverage = hearingTestResults.isNotEmpty
-            ? hearingTestResults.reduce((a, b) => a + b) / hearingTestResults.length.toDouble()
+            ? hearingTestResults.reduce((a, b) => a + b) /
+                hearingTestResults.length.toDouble()
             : 0;
 
         final double verbalMemoryAverage = verbalMemoryResults.isNotEmpty
-            ? verbalMemoryResults.reduce((a, b) => a + b) / verbalMemoryResults.length.toDouble()
-            : 0;
-        
-        final double sequenceMemoryAverage = sequenceMemoryResults.isNotEmpty
-            ? sequenceMemoryResults.reduce((a, b) => a + b) / sequenceMemoryResults.length.toDouble()
-            : 0;
-        
-        final double visualMemoryAverage = visualMemoryResults.isNotEmpty
-            ? visualMemoryResults.reduce((a, b) => a + b) / visualMemoryResults.length.toDouble()
-            : 0;
-        
-        final double aimTrainerAverage = aimTrainerResults.isNotEmpty
-            ? aimTrainerResults.reduce((a, b) => a + b) / aimTrainerResults.length.toDouble()
+            ? verbalMemoryResults.reduce((a, b) => a + b) /
+                verbalMemoryResults.length.toDouble()
             : 0;
 
-        final List<String> typingSpeedLabels = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100', '110', ' '];
-        final List<String> reactionTimeLabels = ['100', '150', '200', '250', '300', '350', '400', '450', '500', ' '];
-        final List<String> chimpTestLabels = ['3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', ' '];
-        final List<String> numberMemoryLabels = ['2', '3', '4', '5', '6', '7', '8', '9', '10', '11', ' '];
-        final List<String> hearingTestLabels = ['0.25', '0.5', '1', '2', '4', '8', '10', '12', '14', '16', '18', '20', '22', ' '];
-        final List<String> verbalMemoryLabels = ['10', '20', '30', '40', '50', '60', '70', '80', '90', '100', '120', '140', ' '];
-        final List<String> sequenceMemoryLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', ' '];
-        final List<String> visualMemoryLabels = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', ' '];
-        final List<String> aimTrainerLabels = ['200', '250', '300', '350', '400', '450', '500', '550', '600', '650', ' '];
+        final double sequenceMemoryAverage = sequenceMemoryResults.isNotEmpty
+            ? sequenceMemoryResults.reduce((a, b) => a + b) /
+                sequenceMemoryResults.length.toDouble()
+            : 0;
+
+        final double visualMemoryAverage = visualMemoryResults.isNotEmpty
+            ? visualMemoryResults.reduce((a, b) => a + b) /
+                visualMemoryResults.length.toDouble()
+            : 0;
+
+        final double aimTrainerAverage = aimTrainerResults.isNotEmpty
+            ? aimTrainerResults.reduce((a, b) => a + b) /
+                aimTrainerResults.length.toDouble()
+            : 0;
+
+        final double infoRetentionAverage = infoRetentionResults.isNotEmpty
+            ? infoRetentionResults.reduce((a, b) => a + b) /
+                infoRetentionResults.length.toDouble()
+            : 0;
+
+        final List<String> typingSpeedLabels = [
+          '10',
+          '20',
+          '30',
+          '40',
+          '50',
+          '60',
+          '70',
+          '80',
+          '90',
+          '100',
+          '110',
+          ' '
+        ];
+        final List<String> reactionTimeLabels = [
+          '100',
+          '150',
+          '200',
+          '250',
+          '300',
+          '350',
+          '400',
+          '450',
+          '500',
+          ' '
+        ];
+        final List<String> chimpTestLabels = [
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          '12',
+          '13',
+          '14',
+          ' '
+        ];
+        final List<String> numberMemoryLabels = [
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          ' '
+        ];
+        final List<String> hearingTestLabels = [
+          '0.25',
+          '0.5',
+          '1',
+          '2',
+          '4',
+          '8',
+          '10',
+          '12',
+          '14',
+          '16',
+          '18',
+          '20',
+          '22',
+          ' '
+        ];
+        final List<String> verbalMemoryLabels = [
+          '10',
+          '20',
+          '30',
+          '40',
+          '50',
+          '60',
+          '70',
+          '80',
+          '90',
+          '100',
+          '120',
+          '140',
+          ' '
+        ];
+        final List<String> sequenceMemoryLabels = [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          '12',
+          '13',
+          '14',
+          ' '
+        ];
+        final List<String> visualMemoryLabels = [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          '11',
+          '12',
+          '13',
+          '14',
+          ' '
+        ];
+        final List<String> aimTrainerLabels = [
+          '200',
+          '250',
+          '300',
+          '350',
+          '400',
+          '450',
+          '500',
+          '550',
+          '600',
+          '650',
+          ' '
+        ];
+        final List<String> infoRetentionLabels = [
+          '0',
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          ' '
+        ];
 
         return Scaffold(
           appBar: AppBar(
@@ -189,7 +512,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         sequenceMemoryAverage: sequenceMemoryAverage,
                         visualMemoryAverage: visualMemoryAverage,
                         aimTrainerAverage: aimTrainerAverage,
-                      ); 
+                        infoRetentionAverage: infoRetentionAverage,
+                      );
                       break;
                     case 'delete':
                       _showDeleteConfirmationDialog(context);
@@ -252,7 +576,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   },
                 ),
                 ListTile(
-                  leading: const Icon(Icons.bar_chart, color: Color(0xFF004D99)),
+                  leading:
+                      const Icon(Icons.bar_chart, color: Color(0xFF004D99)),
                   title: const Text('Statistics'),
                   onTap: () {
                     Navigator.pop(context);
@@ -264,7 +589,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const FAQScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => const FAQScreen()),
                     );
                   },
                 ),
@@ -277,12 +603,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: ListView(
                   children: [
-                    const SizedBox(height: 20), 
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 12, 
+                          width: 12,
                           height: 12,
                           decoration: const BoxDecoration(
                             color: Colors.red,
@@ -292,7 +618,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         const SizedBox(width: 8),
                         const Text(
                           'You',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -301,26 +628,74 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       children: [
                         Container(
                           height: 2,
-                          width: 30, 
+                          width: 30,
                           color: Colors.blue,
                         ),
-                        const SizedBox(width: 8), 
+                        const SizedBox(width: 8),
                         const Text(
                           'World',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),                    
-                    _buildStatisticSection('Reaction Time', reactionTimeDistribution, reactionTimeLabels, 'ms', reactionTimeAverage),
-                    _buildStatisticSection('Typing Speed', typingSpeedDistribution, typingSpeedLabels, 'WPM', typingSpeedAverage),
-                    _buildStatisticSection('Number Memory', numberMemoryDistribution, numberMemoryLabels, 'Score', numberMemoryAverage),
-                    _buildStatisticSection('Chimp Test', chimpTestDistribution, chimpTestLabels, 'Score', chimpTestAverage),
-                    _buildStatisticSection('Hearing Test', hearingTestDistribution, hearingTestLabels, 'KHz', hearingTestAverage),
-                    _buildStatisticSection('Verbal Memory', verbalMemoryDistribution, verbalMemoryLabels, 'Score', verbalMemoryAverage),
-                    _buildStatisticSection('Sequence Memory', sequenceMemoryDistribution, sequenceMemoryLabels, 'Score', sequenceMemoryAverage),
-                    _buildStatisticSection('Visual Memory', visualMemoryDistribution, visualMemoryLabels, 'Level', visualMemoryAverage),
-                    _buildStatisticSection('Aim Trainer', aimTrainerDistribution, aimTrainerLabels, 'ms', aimTrainerAverage),
+                    const SizedBox(height: 30),
+                    _buildStatisticSection(
+                        'Reaction Time',
+                        reactionTimeDistribution,
+                        reactionTimeLabels,
+                        'ms',
+                        reactionTimeAverage),
+                    _buildStatisticSection(
+                        'Typing Speed',
+                        typingSpeedDistribution,
+                        typingSpeedLabels,
+                        'WPM',
+                        typingSpeedAverage),
+                    _buildStatisticSection(
+                        'Number Memory',
+                        numberMemoryDistribution,
+                        numberMemoryLabels,
+                        'Score',
+                        numberMemoryAverage),
+                    _buildStatisticSection('Chimp Test', chimpTestDistribution,
+                        chimpTestLabels, 'Score', chimpTestAverage),
+                    _buildStatisticSection(
+                        'Hearing Test',
+                        hearingTestDistribution,
+                        hearingTestLabels,
+                        'KHz',
+                        hearingTestAverage),
+                    _buildStatisticSection(
+                        'Verbal Memory',
+                        verbalMemoryDistribution,
+                        verbalMemoryLabels,
+                        'Score',
+                        verbalMemoryAverage),
+                    _buildStatisticSection(
+                        'Sequence Memory',
+                        sequenceMemoryDistribution,
+                        sequenceMemoryLabels,
+                        'Score',
+                        sequenceMemoryAverage),
+                    _buildStatisticSection(
+                        'Visual Memory',
+                        visualMemoryDistribution,
+                        visualMemoryLabels,
+                        'Level',
+                        visualMemoryAverage),
+                    _buildStatisticSection(
+                        'Aim Trainer',
+                        aimTrainerDistribution,
+                        aimTrainerLabels,
+                        'ms',
+                        aimTrainerAverage),
+                    _buildStatisticSection(
+                        'Info Retention',
+                        infoRetentionDistribution,
+                        infoRetentionLabels,
+                        'correct',
+                        infoRetentionAverage),
                   ],
                 ),
               ),
@@ -331,7 +706,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     );
   }
 
-  Widget _buildStatisticSection(String title, List<double> data, List<String> xAxisLabels, String unit, double average) {
+  Widget _buildStatisticSection(String title, List<double> data,
+      List<String> xAxisLabels, String unit, double average) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -355,115 +731,123 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         const SizedBox(height: 10),
         SizedBox(
           height: 300,
-          child: LineChart(_buildDistributionChartData(data, xAxisLabels, unit, average)),
+          child: LineChart(
+              _buildDistributionChartData(data, xAxisLabels, unit, average)),
         ),
         const SizedBox(height: 20),
       ],
     );
   }
 
-List<double> _generateCustomDistribution(List<int> values) {
-  final List<double> distribution = [];
-  final int maxValue = values.isNotEmpty ? values.reduce(max) : 1;
-  for (int value in values) {
-    double normalizedValue = (value / maxValue) * 100;
-    distribution.add(normalizedValue);
-  }
-  return distribution;
-}
-
-LineChartData _buildDistributionChartData(
-    List<double> data, List<String> xAxisLabels, String unit, double average) {
-  final int labelsLength = xAxisLabels.length;
-
-  int closestLabelIndex = 0;
-  double closestLabelDifference = double.infinity;
-
-  for (int i = 0; i < xAxisLabels.length; i++) {
-    double labelValue = double.tryParse(xAxisLabels[i].replaceAll(RegExp(r'[^\d.]'), '')) ?? 0;
-
-    double difference = (average - labelValue).abs();
-    if (difference < closestLabelDifference) {
-      closestLabelIndex = i;
-      closestLabelDifference = difference;
+  List<double> _generateCustomDistribution(List<int> values) {
+    final List<double> distribution = [];
+    final int maxValue = values.isNotEmpty ? values.reduce(max) : 1;
+    for (int value in values) {
+      double normalizedValue = (value / maxValue) * 100;
+      distribution.add(normalizedValue);
     }
+    return distribution;
   }
 
-  double yValueAtClosestLabel = data[closestLabelIndex];
+  LineChartData _buildDistributionChartData(List<double> data,
+      List<String> xAxisLabels, String unit, double average) {
+    final int labelsLength = xAxisLabels.length;
 
-  final redDot = LineChartBarData(
-    spots: [FlSpot(closestLabelIndex.toDouble(), yValueAtClosestLabel)],
-    isCurved: false,
-    color: Colors.red,
-    dotData: FlDotData(
-      show: true,
-      getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
-        radius: 5,
-        color: Colors.red,
-        strokeWidth: 2,
-        strokeColor: Colors.redAccent,
-      ),
-    ),
-    belowBarData: BarAreaData(show: false),
-    barWidth: 0, 
-  );
+    int closestLabelIndex = 0;
+    double closestLabelDifference = double.infinity;
 
-  return LineChartData(
-    gridData: FlGridData(
-      show: true,
-      drawVerticalLine: true,
-      horizontalInterval: 20,
-      verticalInterval: 20,
-      getDrawingHorizontalLine: (value) =>
-          FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1),
-      getDrawingVerticalLine: (value) =>
-          FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1),
-    ),
-    titlesData: FlTitlesData(
-      show: true,
-      rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-      bottomTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 40,
-          getTitlesWidget: (value, meta) {
-            final int index = value.toInt();
-            if (index >= 0 && index < labelsLength) {
-              return Text(xAxisLabels[index], style: const TextStyle(fontSize: 12));
-            }
-            return const SizedBox.shrink();
-          },
+    for (int i = 0; i < xAxisLabels.length; i++) {
+      double labelValue =
+          double.tryParse(xAxisLabels[i].replaceAll(RegExp(r'[^\d.]'), '')) ??
+              0;
+
+      double difference = (average - labelValue).abs();
+      if (difference < closestLabelDifference) {
+        closestLabelIndex = i;
+        closestLabelDifference = difference;
+      }
+    }
+
+    double yValueAtClosestLabel = data[closestLabelIndex];
+
+    final redDot = LineChartBarData(
+      spots: [FlSpot(closestLabelIndex.toDouble(), yValueAtClosestLabel)],
+      isCurved: false,
+      color: Colors.red,
+      dotData: FlDotData(
+        show: true,
+        getDotPainter: (spot, percent, bar, index) => FlDotCirclePainter(
+          radius: 5,
+          color: Colors.red,
+          strokeWidth: 2,
+          strokeColor: Colors.redAccent,
         ),
       ),
-      leftTitles: AxisTitles(
-        sideTitles: SideTitles(
-          showTitles: true,
-          reservedSize: 40,
-          getTitlesWidget: (value, meta) =>
-              Text('${value.toInt()}%', style: const TextStyle(fontSize: 12)),
+      belowBarData: BarAreaData(show: false),
+      barWidth: 0,
+    );
+
+    return LineChartData(
+      gridData: FlGridData(
+        show: true,
+        drawVerticalLine: true,
+        horizontalInterval: 20,
+        verticalInterval: 20,
+        getDrawingHorizontalLine: (value) =>
+            FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1),
+        getDrawingVerticalLine: (value) =>
+            FlLine(color: Colors.grey.withOpacity(0.2), strokeWidth: 1),
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        rightTitles:
+            const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 40,
+            getTitlesWidget: (value, meta) {
+              final int index = value.toInt();
+              if (index >= 0 && index < labelsLength) {
+                return Text(xAxisLabels[index],
+                    style: const TextStyle(fontSize: 12));
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+        ),
+        leftTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 40,
+            getTitlesWidget: (value, meta) =>
+                Text('${value.toInt()}%', style: const TextStyle(fontSize: 12)),
+          ),
         ),
       ),
-    ),
-    borderData: FlBorderData(show: true, border: Border.all(color: Colors.grey.withOpacity(0.2))),
-    minX: 0,
-    maxX: (labelsLength - 1).toDouble(),
-    minY: data.reduce((a, b) => a < b ? a : b),
-    maxY: data.reduce((a, b) => a > b ? a : b),
-    lineBarsData: [
-      LineChartBarData(
-        spots: [for (int i = 0; i < data.length; i++) FlSpot(i.toDouble(), data[i])],
-        isCurved: true,
-        color: Colors.blueAccent,
-        barWidth: 2,
-        isStrokeCapRound: true,
-        dotData: const FlDotData(show: false),
-        belowBarData: BarAreaData(show: false),
-      ),
-      redDot, 
-    ],
-  );
-}
+      borderData: FlBorderData(
+          show: true, border: Border.all(color: Colors.grey.withOpacity(0.2))),
+      minX: 0,
+      maxX: (labelsLength - 1).toDouble(),
+      minY: data.reduce((a, b) => a < b ? a : b),
+      maxY: data.reduce((a, b) => a > b ? a : b),
+      lineBarsData: [
+        LineChartBarData(
+          spots: [
+            for (int i = 0; i < data.length; i++) FlSpot(i.toDouble(), data[i])
+          ],
+          isCurved: true,
+          color: Colors.blueAccent,
+          barWidth: 2,
+          isStrokeCapRound: true,
+          dotData: const FlDotData(show: false),
+          belowBarData: BarAreaData(show: false),
+        ),
+        redDot,
+      ],
+    );
+  }
 
   List<double> _getLatestResults(List<double> results) {
     int count = results.length > 10 ? 10 : results.length;
@@ -476,7 +860,8 @@ LineChartData _buildDistributionChartData(
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Delete All Results'),
-          content: const Text('Are you sure you want to delete all results? This action cannot be undone.'),
+          content: const Text(
+              'Are you sure you want to delete all results? This action cannot be undone.'),
           actions: <Widget>[
             TextButton(
               child: const Text('Cancel'),
@@ -496,6 +881,7 @@ LineChartData _buildDistributionChartData(
                 await SequenceMemoryTestScreen.clearResults();
                 await VisualMemoryTestScreen.clearResults();
                 await AimTrainerScreen.clearResults();
+                await InfoRetentionScreen.clearResults();
                 setState(() {});
                 Navigator.of(context).pop();
               },
@@ -506,7 +892,7 @@ LineChartData _buildDistributionChartData(
     );
   }
 
-void _shareStatistics({
+  void _shareStatistics({
     required double reactionTimeAverage,
     required double typingSpeedAverage,
     required double numberMemoryAverage,
@@ -516,25 +902,29 @@ void _shareStatistics({
     required double sequenceMemoryAverage,
     required double visualMemoryAverage,
     required double aimTrainerAverage,
+    required double infoRetentionAverage,
   }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
-    final Canvas canvas = Canvas(recorder, Rect.fromPoints(const Offset(0, 0), const Offset(500, 700))); 
+    final Canvas canvas = Canvas(
+        recorder, Rect.fromPoints(const Offset(0, 0), const Offset(500, 700)));
 
     final Paint paint = Paint()..color = Colors.white;
-    const Rect rect = Rect.fromLTWH(0, 0, 500, 700); 
+    const Rect rect = Rect.fromLTWH(0, 0, 500, 700);
     canvas.drawRect(rect, paint);
 
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
-        text: 'Average Reaction Time: ${reactionTimeAverage.toStringAsFixed(2)} ms\n'
-              'Average Typing Speed: ${typingSpeedAverage.toStringAsFixed(0)} WPM\n'
-              'Average Number Memory Score: ${numberMemoryAverage.toStringAsFixed(0)}\n'
-              'Average Chimp Test Score: ${chimpTestAverage.toStringAsFixed(0)}\n'
-              'Average Hearing Test Frequency: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
-              'Average Verbal Memory Score: ${verbalMemoryAverage.toStringAsFixed(0)}\n'
-              'Average Sequence Memory Score: ${sequenceMemoryAverage.toStringAsFixed(0)}\n'
-              'Average Visual Memory Score: ${visualMemoryAverage.toStringAsFixed(0)}\n'
-              'Average Aim Trainer Time: ${aimTrainerAverage.toStringAsFixed(0)} ms',
+        text:
+            'Average Reaction Time: ${reactionTimeAverage.toStringAsFixed(2)} ms\n'
+            'Average Typing Speed: ${typingSpeedAverage.toStringAsFixed(0)} WPM\n'
+            'Average Number Memory Score: ${numberMemoryAverage.toStringAsFixed(0)}\n'
+            'Average Chimp Test Score: ${chimpTestAverage.toStringAsFixed(0)}\n'
+            'Average Hearing Test Frequency: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
+            'Average Verbal Memory Score: ${verbalMemoryAverage.toStringAsFixed(0)}\n'
+            'Average Sequence Memory Score: ${sequenceMemoryAverage.toStringAsFixed(0)}\n'
+            'Average Visual Memory Score: ${visualMemoryAverage.toStringAsFixed(0)}\n'
+            'Average Aim Trainer Time: ${aimTrainerAverage.toStringAsFixed(0)} ms\n'
+            'Average Info Retention Score: ${infoRetentionAverage.toStringAsFixed(0)} correct',
         style: const TextStyle(
           color: Colors.black,
           fontSize: 24,
@@ -548,7 +938,8 @@ void _shareStatistics({
     textPainter.paint(canvas, const Offset(50, 60));
 
     final ByteData data = await rootBundle.load('assets/human-benchmark.png');
-    final ui.Image watermark = await decodeImageFromList(data.buffer.asUint8List());
+    final ui.Image watermark =
+        await decodeImageFromList(data.buffer.asUint8List());
 
     const double watermarkWidth = 60;
     const double watermarkHeight = 60;
@@ -563,7 +954,8 @@ void _shareStatistics({
     );
     canvas.drawImageRect(
       watermark,
-      Rect.fromLTWH(0, 0, watermark.width.toDouble(), watermark.height.toDouble()),
+      Rect.fromLTWH(
+          0, 0, watermark.width.toDouble(), watermark.height.toDouble()),
       watermarkRect,
       Paint(),
     );
@@ -582,13 +974,15 @@ void _shareStatistics({
     watermarkTextPainter.layout(minWidth: 0, maxWidth: 300);
 
     const double textX = watermarkX + watermarkWidth + 10;
-    final double textY = watermarkY + (watermarkHeight - watermarkTextPainter.height) / 2;
+    final double textY =
+        watermarkY + (watermarkHeight - watermarkTextPainter.height) / 2;
 
     watermarkTextPainter.paint(canvas, Offset(textX, textY));
 
     final ui.Picture picture = recorder.endRecording();
-    final ui.Image img = await picture.toImage(500, 700); 
-    final ByteData? byteData = await img.toByteData(format: ui.ImageByteFormat.png);
+    final ui.Image img = await picture.toImage(500, 700);
+    final ByteData? byteData =
+        await img.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List pngBytes = byteData!.buffer.asUint8List();
 
     final Directory tempDir = await getTemporaryDirectory();

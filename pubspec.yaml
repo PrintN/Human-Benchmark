@@ -28,6 +28,7 @@ flutter:
 
   assets:
     - assets/sentences.json
+    - assets/articles.json
     - assets/words.json
     - assets/human-benchmark.png
     - assets/human-benchmark-no-background.png
