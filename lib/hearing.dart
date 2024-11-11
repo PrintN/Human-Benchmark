@@ -30,27 +30,41 @@ class HearingTestScreen extends StatefulWidget {
 }
 
 class _HearingTestScreenState extends State<HearingTestScreen> {
-  final List<int> _frequencies = [250, 500, 1000, 2000, 4000, 8000, 10000, 12000, 14000, 16000, 18000, 20000, 22000];
+  final List<int> _frequencies = [
+    250,
+    500,
+    1000,
+    2000,
+    4000,
+    8000,
+    10000,
+    12000,
+    14000,
+    16000,
+    18000,
+    20000,
+    22000
+  ];
   int _currentFrequencyIndex = 0;
   bool _testStarted = false;
   bool _testEnded = false;
-  final AudioPlayer _audioPlayer = AudioPlayer(); 
+  final AudioPlayer _audioPlayer = AudioPlayer();
   String _message = "Press Start to begin the test";
-  List<double> _testResults = []; 
-  int _highestFrequency = 0; 
+  List<double> _testResults = [];
+  int _highestFrequency = 0;
 
   @override
   void initState() {
     super.initState();
-    HearingTestScreen.loadResults(); 
+    HearingTestScreen.loadResults();
   }
 
   Future<void> _playFrequency(int frequency, [int attempt = 1]) async {
-    const int maxAttempts = 3; 
-    _message = "Playing tone at ${frequency / 1000} KHz"; 
+    const int maxAttempts = 3;
+    _message = "Playing tone at ${frequency / 1000} KHz";
     setState(() {});
 
-    String assetPath = 'assets/frequencies/$frequency.wav'; 
+    String assetPath = 'assets/frequencies/$frequency.wav';
 
     try {
       await _audioPlayer.stop();
@@ -73,8 +87,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
   void _onHeard() {
     setState(() {
       _message = "You heard the tone!";
-      _testResults.add(_frequencies[_currentFrequencyIndex].toDouble()); 
-      _highestFrequency = _frequencies[_currentFrequencyIndex]; 
+      _testResults.add(_frequencies[_currentFrequencyIndex].toDouble());
+      _highestFrequency = _frequencies[_currentFrequencyIndex];
       _nextFrequency();
     });
   }
@@ -82,8 +96,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
   void _onNotHeard() {
     setState(() {
       _message = "You did not hear the tone!";
-      _testResults.add(0.0); 
-      _endTest(); 
+      _testResults.add(0.0);
+      _endTest();
     });
   }
 
@@ -101,8 +115,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
       _testStarted = true;
       _testEnded = false;
       _currentFrequencyIndex = 0;
-      _testResults = []; 
-      _highestFrequency = 0; 
+      _testResults = [];
+      _highestFrequency = 0;
       _message = "Testing your hearing...";
     });
 
@@ -131,19 +145,19 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hearing Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Hearing',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Center(
-        child: _testStarted
-            ? _buildTestUI()
-            : _buildStartScreen(context),
+        child: _testStarted ? _buildTestUI() : _buildStartScreen(context),
       ),
     );
   }
 
   Widget _buildStartScreen(BuildContext context) {
     final lastScore = HearingTestScreen.results.isNotEmpty
-        ? 'Latest Frequency Heard: ${(HearingTestScreen.results.last).toStringAsFixed(1)} KHz' 
+        ? 'Latest Frequency Heard: ${(HearingTestScreen.results.last).toStringAsFixed(1)} KHz'
         : 'No previous results';
 
     return Container(
@@ -192,7 +206,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -224,7 +239,10 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             _message,
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 0, 0)),
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 0, 0, 0)),
             textAlign: TextAlign.center,
           ),
         ),
@@ -235,7 +253,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
               ElevatedButton(
                 onPressed: _onHeard,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 12.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -252,7 +271,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
               ElevatedButton(
                 onPressed: _onNotHeard,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 24.0, vertical: 12.0),
                   backgroundColor: const Color.fromARGB(255, 255, 38, 38),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -271,7 +291,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
           ElevatedButton(
             onPressed: _startTest,
             style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
               backgroundColor: Colors.teal,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(30.0),

@@ -14,7 +14,8 @@ class VerbalMemoryTestScreen extends StatefulWidget {
 
   static Future<void> loadResults() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedResults = prefs.getStringList('verbal_memory_test_results') ?? [];
+    final savedResults =
+        prefs.getStringList('verbal_memory_test_results') ?? [];
     results = savedResults.map((e) => double.tryParse(e) ?? 0.0).toList();
   }
 
@@ -82,7 +83,8 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
       } else {
         do {
           nextWord = _words[_random.nextInt(_words.length)];
-        } while (_shownWordsSet.contains(nextWord) && _shownWords.length < _words.length);
+        } while (_shownWordsSet.contains(nextWord) &&
+            _shownWords.length < _words.length);
       }
 
       setState(() {
@@ -105,7 +107,8 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
 
   void _checkWordStatus(bool isSeen) {
     if (isSeen) {
-      if (_trueSeenWords.contains(_currentWord) || _shownWordsSet.contains(_currentWord)) {
+      if (_trueSeenWords.contains(_currentWord) ||
+          _shownWordsSet.contains(_currentWord)) {
         _totalRemembered++;
         setState(() {
           _shownWords.add(_currentWord);
@@ -121,7 +124,7 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
         setState(() {
           _shownWords.add(_currentWord);
           _shownWordsSet.add(_currentWord);
-          _shownWordsCount++; 
+          _shownWordsCount++;
         });
       } else {
         _endTest();
@@ -149,13 +152,13 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Verbal Memory Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Verbal Memory',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF004D99),
       ),
       body: Center(
-        child: _testStarted
-            ? _buildTestUI()
-            : _buildStartScreen(context),
+        child: _testStarted ? _buildTestUI() : _buildStartScreen(context),
       ),
     );
   }
@@ -211,7 +214,8 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -248,7 +252,6 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        
         Text(
           "Words Shown: $_shownWordsCount",
           style: const TextStyle(
@@ -257,12 +260,12 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
           ),
         ),
         const SizedBox(height: 30),
-        
         ElevatedButton(
           onPressed: _onSeen,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF0073E6),
-            padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
@@ -278,12 +281,12 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
           ),
         ),
         const SizedBox(height: 15),
-        
         ElevatedButton(
           onPressed: _onNew,
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFF0073E6),
-            padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
@@ -299,13 +302,13 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
           ),
         ),
         const SizedBox(height: 20),
-        
         if (_testEnded)
           ElevatedButton(
             onPressed: _startTest,
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF004D99),
-              padding: const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 36.0, vertical: 16.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0),
               ),

@@ -121,14 +121,14 @@ class _ChimpScreenState extends State<ChimpScreen> {
     if (number == _expectedNumber) {
       setState(() {
         _expectedNumber++;
-        int index = _sequence.indexOf(number); 
-        _sequence.removeAt(index); 
-        _positions.removeAt(index); 
+        int index = _sequence.indexOf(number);
+        _sequence.removeAt(index);
+        _positions.removeAt(index);
         if (_expectedNumber > _numberCount) {
           if (_score == 0) {
-            _score = _numberCount; 
+            _score = _numberCount;
           } else {
-            _score++; 
+            _score++;
           }
           _numberCount++;
           _generateSequence();
@@ -146,7 +146,9 @@ class _ChimpScreenState extends State<ChimpScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chimp Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Chimp',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: _testStarted
           ? Stack(
@@ -260,7 +262,8 @@ class _ChimpScreenState extends State<ChimpScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),

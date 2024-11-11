@@ -201,13 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildGridButton(
           context,
-          'Typing',
+          'Typing Speed',
           Icons.keyboard,
           const TypingScreen(),
         ),
         _buildGridButton(
           context,
-          'Chimp Test',
+          'Chimp',
           Icons.pets,
           const ChimpScreen(),
         ),
@@ -219,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildGridButton(
           context,
-          'Hearing Test',
+          'Hearing',
           Icons.hearing,
           const HearingTestScreen(),
         ),
@@ -269,13 +269,13 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildListButton(
           context,
-          'Typing',
+          'Typing Speed',
           Icons.keyboard,
           const TypingScreen(),
         ),
         _buildListButton(
           context,
-          'Chimp Test',
+          'Chimp',
           Icons.pets,
           const ChimpScreen(),
         ),
@@ -287,7 +287,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildListButton(
           context,
-          'Hearing Test',
+          'Hearing',
           Icons.hearing,
           const HearingTestScreen(),
         ),

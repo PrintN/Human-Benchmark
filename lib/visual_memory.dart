@@ -13,7 +13,8 @@ class VisualMemoryTestScreen extends StatefulWidget {
 
   static Future<void> loadResults() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedResults = prefs.getStringList('visual_memory_test_results') ?? [];
+    final savedResults =
+        prefs.getStringList('visual_memory_test_results') ?? [];
     results = savedResults.map((e) => double.tryParse(e) ?? 0.0).toList();
   }
 
@@ -72,7 +73,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
 
     setState(() {
       _isShowingSquares = true;
-      _progress = 1.0; 
+      _progress = 1.0;
     });
 
     _startProgressTimer();
@@ -87,11 +88,11 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
   }
 
   void _startProgressTimer() {
-    _progressTimer?.cancel(); 
-    _progress = 1.0; 
+    _progressTimer?.cancel();
+    _progress = 1.0;
 
-    const duration = Duration(seconds: 5); 
-    const interval = Duration(milliseconds: 50); 
+    const duration = Duration(seconds: 5);
+    const interval = Duration(milliseconds: 50);
 
     _progressTimer = Timer.periodic(interval, (timer) {
       final elapsed = timer.tick * interval.inMilliseconds;
@@ -99,7 +100,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
 
       if (progressPercent <= 0.0) {
         setState(() {
-          _progress = 0.0; 
+          _progress = 0.0;
         });
         timer.cancel();
         setState(() {
@@ -127,13 +128,13 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
         _endTest();
       } else if (_userInput.length == correctSquares.length) {
         _score++;
-        if (_score % 3 == 0) { 
+        if (_score % 3 == 0) {
           setState(() {
             _boardSize++;
           });
         }
-        _userInput.clear(); 
-        _correctlyIdentified.clear(); 
+        _userInput.clear();
+        _correctlyIdentified.clear();
         _generateAndShowSquares();
       }
     } else {
@@ -144,7 +145,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
   void _endTest() async {
     setState(() {
       _testEnded = true;
-      _testStarted = false; 
+      _testStarted = false;
     });
 
     VisualMemoryTestScreen.results.add(_score.toDouble());
@@ -155,7 +156,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
     bool isLit = _litSquares.contains(index);
     bool isHighlighted = isLit && _isShowingSquares;
     bool isCorrectlyIdentified = _correctlyIdentified.contains(index);
-    
+
     return GestureDetector(
       onTap: () => _onSquareTapped(index),
       child: AnimatedContainer(
@@ -187,8 +188,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
               : null,
         ),
         child: Center(
-          child: Container(
-          ),
+          child: Container(),
         ),
       ),
     );
@@ -243,9 +243,10 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
               ),
               const SizedBox(height: 40),
               ElevatedButton(
-                onPressed: _startTest, 
+                onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -273,12 +274,12 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Visual Memory Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Visual Memory',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Center(
-        child: _testStarted
-            ? _buildTestUI()
-            : _buildStartScreen(),
+        child: _testStarted ? _buildTestUI() : _buildStartScreen(),
       ),
     );
   }
@@ -303,7 +304,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
             height: 20,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[300], 
+              color: Colors.grey[300],
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
@@ -311,7 +312,8 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
                 value: _progress,
                 backgroundColor: Colors.transparent,
                 color: Colors.blueAccent,
-                valueColor: const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
+                valueColor:
+                    const AlwaysStoppedAnimation<Color>(Colors.blueAccent),
               ),
             ),
           ),
@@ -323,12 +325,13 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
         ],
         const SizedBox(height: 20),
         SizedBox(
-          width: 80.0 * _boardSize + 16.0 * (_boardSize - 1), 
-          height: 80.0 * _boardSize + 16.0 * (_boardSize - 1), 
+          width: 80.0 * _boardSize + 16.0 * (_boardSize - 1),
+          height: 80.0 * _boardSize + 16.0 * (_boardSize - 1),
           child: GridView.count(
             shrinkWrap: true,
             crossAxisCount: _boardSize,
-            children: List.generate(_boardSize * _boardSize, (index) => _buildSquare(index)),
+            children: List.generate(
+                _boardSize * _boardSize, (index) => _buildSquare(index)),
           ),
         ),
         const SizedBox(height: 20),

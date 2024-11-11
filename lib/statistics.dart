@@ -658,14 +658,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         numberMemoryLabels,
                         'Score',
                         numberMemoryAverage),
-                    _buildStatisticSection('Chimp Test', chimpTestDistribution,
+                    _buildStatisticSection('Chimp', chimpTestDistribution,
                         chimpTestLabels, 'Score', chimpTestAverage),
-                    _buildStatisticSection(
-                        'Hearing Test',
-                        hearingTestDistribution,
-                        hearingTestLabels,
-                        'KHz',
-                        hearingTestAverage),
+                    _buildStatisticSection('Hearing', hearingTestDistribution,
+                        hearingTestLabels, 'KHz', hearingTestAverage),
                     _buildStatisticSection(
                         'Verbal Memory',
                         verbalMemoryDistribution,
@@ -918,8 +914,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             'Average Reaction Time: ${reactionTimeAverage.toStringAsFixed(2)} ms\n'
             'Average Typing Speed: ${typingSpeedAverage.toStringAsFixed(0)} WPM\n'
             'Average Number Memory Score: ${numberMemoryAverage.toStringAsFixed(0)}\n'
-            'Average Chimp Test Score: ${chimpTestAverage.toStringAsFixed(0)}\n'
-            'Average Hearing Test Frequency: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
+            'Average Chimp Score: ${chimpTestAverage.toStringAsFixed(0)}\n'
+            'Average Hearing Frequency: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
             'Average Verbal Memory Score: ${verbalMemoryAverage.toStringAsFixed(0)}\n'
             'Average Sequence Memory Score: ${sequenceMemoryAverage.toStringAsFixed(0)}\n'
             'Average Visual Memory Score: ${visualMemoryAverage.toStringAsFixed(0)}\n'

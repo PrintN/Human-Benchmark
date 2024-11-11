@@ -46,11 +46,11 @@ class _TypingScreenState extends State<TypingScreen> {
   }
 
   Future<void> _initialize() async {
-    await TypingScreen.loadResults(); 
+    await TypingScreen.loadResults();
     _loadSentences().then((sentences) {
       _generateRandomText(sentences);
       setState(() {
-        _isLoading = false; 
+        _isLoading = false;
       });
     }).catchError((error) {
       setState(() {
@@ -61,7 +61,8 @@ class _TypingScreenState extends State<TypingScreen> {
 
   Future<List<String>> _loadSentences() async {
     try {
-      final String response = await rootBundle.loadString('assets/sentences.json');
+      final String response =
+          await rootBundle.loadString('assets/sentences.json');
       final data = jsonDecode(response);
       return List<String>.from(data['sentences']);
     } catch (e) {
@@ -91,11 +92,14 @@ class _TypingScreenState extends State<TypingScreen> {
 
     if (value == _textToType) {
       _stopwatch.stop();
-      final elapsedTime = _stopwatch.elapsedMilliseconds / 1000.0; 
-      final wordCount = _textToType.split(RegExp(r'\s+')).where((word) => word.isNotEmpty).length;
-      final wpm = (elapsedTime > 0) ? (wordCount / elapsedTime) * 60.0 : 0.0; 
-      TypingScreen.results.add(wpm); 
-      TypingScreen.saveResults(); 
+      final elapsedTime = _stopwatch.elapsedMilliseconds / 1000.0;
+      final wordCount = _textToType
+          .split(RegExp(r'\s+'))
+          .where((word) => word.isNotEmpty)
+          .length;
+      final wpm = (elapsedTime > 0) ? (wordCount / elapsedTime) * 60.0 : 0.0;
+      TypingScreen.results.add(wpm);
+      TypingScreen.saveResults();
       Future.delayed(const Duration(seconds: 1), () {
         setState(() {
           _isTestStarted = false;
@@ -119,13 +123,15 @@ class _TypingScreenState extends State<TypingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Typing Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Typing Speed',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: _isTestStarted
           ? Padding(
               padding: const EdgeInsets.all(16.0),
               child: _isLoading
-                  ? const Center(child: CircularProgressIndicator()) 
+                  ? const Center(child: CircularProgressIndicator())
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -214,7 +220,8 @@ class _TypingScreenState extends State<TypingScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),

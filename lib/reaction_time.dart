@@ -54,23 +54,26 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
   }
 
   void _startTest() {
-    _stopwatch.reset(); 
-    _timer?.cancel(); 
+    _stopwatch.reset();
+    _timer?.cancel();
 
     setState(() {
       _started = true;
       _waitingForGreen = true;
       _tooSoon = false;
       _screenColor = Colors.red;
-      _displayText = 'Wait for green'; 
+      _displayText = 'Wait for green';
     });
 
-    _timer = Timer(Duration(seconds: 2 + 5 * (DateTime.now().millisecondsSinceEpoch % 5) ~/ 1000), () {
+    _timer = Timer(
+        Duration(
+            seconds: 2 +
+                5 * (DateTime.now().millisecondsSinceEpoch % 5) ~/ 1000), () {
       if (_waitingForGreen) {
         setState(() {
           _screenColor = Colors.green;
           _stopwatch.start();
-          _displayText = 'Click!'; 
+          _displayText = 'Click!';
         });
       }
     });
@@ -78,7 +81,7 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
 
   void _handleTap() {
     if (!_started) {
-      return; 
+      return;
     }
 
     if (_waitingForGreen && _screenColor == Colors.red) {
@@ -101,7 +104,7 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
       final reactionTime = _stopwatch.elapsedMilliseconds.toDouble();
 
       ReactionTimeScreen.results.add(reactionTime);
-      ReactionTimeScreen.saveResults(); 
+      ReactionTimeScreen.saveResults();
 
       setState(() {
         _started = false;
@@ -118,7 +121,9 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Reaction Time Test', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Reaction Time',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: _started
           ? GestureDetector(
@@ -187,7 +192,8 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
