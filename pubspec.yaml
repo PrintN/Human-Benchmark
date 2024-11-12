@@ -2,7 +2,7 @@ name: humanbenchmark
 description: "An app to test your abilities."
 publish_to: 'none'
 
-version: 1.0.2+12
+version: 1.0.3+13
 
 environment:
   sdk: ^3.5.0
@@ -50,4 +50,4 @@ flutter:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/human-benchmark.png"
+  image_path: "assets/human-benchmark.webp"
