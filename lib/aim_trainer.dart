@@ -57,7 +57,7 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
       _testStarted = true;
       _testEnded = false;
       _startTime = DateTime.now().millisecondsSinceEpoch;
-      _showTarget(); 
+      _showTarget();
     });
   }
 
@@ -68,10 +68,13 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
     });
 
     final averageTimeMs = _hitTimes.length >= 2
-        ? _hitTimes.asMap().entries
-            .skip(1)
-            .map((entry) => entry.value - _hitTimes[entry.key - 1])
-            .reduce((a, b) => a + b) ~/ (_hitTimes.length - 1)
+        ? _hitTimes
+                .asMap()
+                .entries
+                .skip(1)
+                .map((entry) => entry.value - _hitTimes[entry.key - 1])
+                .reduce((a, b) => a + b) ~/
+            (_hitTimes.length - 1)
         : 0;
 
     AimTrainerScreen.results.add(averageTimeMs.toDouble());
@@ -93,11 +96,7 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
     if (_hits >= _targetCount) {
       _endTest();
     } else {
-      Future.delayed(const Duration(milliseconds: 300), () {
-        if (_testStarted && !_testEnded) {
-          _showTarget();
-        }
-      });
+      _showTarget();
     }
   }
 
@@ -105,17 +104,14 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
     final double width = MediaQuery.of(context).size.width;
     final double height = MediaQuery.of(context).size.height;
 
-    final double maxX = width - _targetSize;
-    final double maxY = height - _targetSize;
+    final double maxX = width - _targetSize - 20;
+    final double maxY = height - _targetSize - 80;
 
     double targetX = _random.nextDouble() * maxX;
     double targetY = _random.nextDouble() * maxY;
 
     setState(() {
-      _targetPosition = Offset(
-        targetX,
-        targetY,
-      );
+      _targetPosition = Offset(targetX, targetY);
       _targetVisible = true;
     });
   }
@@ -123,13 +119,13 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
-        title: const Text('Aim Trainer', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+      appBar: AppBar(
+        title: const Text('Aim Trainer',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Center(
-        child: _testStarted
-            ? _buildTestUI()
-            : _buildStartScreen(),
+        child: _testStarted ? _buildTestUI() : _buildStartScreen(),
       ),
     );
   }
@@ -185,7 +181,8 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -219,13 +216,15 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
           child: Center(
             child: Text(
               'Targets Left: $_remainingTargets',
-              style: const TextStyle(fontSize: 24, color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 24,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-        ),        
+        ),
         if (_targetVisible && _targetPosition != null) ...[
-          AnimatedPositioned(
-            duration: const Duration(milliseconds: 300),
+          Positioned(
             left: _targetPosition!.dx,
             top: _targetPosition!.dy,
             child: GestureDetector(
@@ -247,7 +246,7 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
                 ),
                 child: Center(
                   child: Image.asset(
-                    'assets/target.png',
+                    'assets/target.webp',
                     width: _targetSize,
                     height: _targetSize,
                   ),
@@ -262,7 +261,10 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
             left: 50,
             child: Text(
               "Test Ended. Avg Time: ${AimTrainerScreen.results.last.toStringAsFixed(2)} ms",
-              style: const TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
+              style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Positioned(
@@ -271,7 +273,8 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
             child: ElevatedButton(
               onPressed: _startTest,
               style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 32.0, vertical: 16.0),
                 backgroundColor: Colors.deepPurpleAccent,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.0),
