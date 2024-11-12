@@ -30,19 +30,19 @@ flutter:
     - assets/sentences.json
     - assets/articles.json
     - assets/words.json
-    - assets/human-benchmark.png
-    - assets/human-benchmark-no-background.png
-    - assets/target.png
-    - assets/frequencies/250.wav
-    - assets/frequencies/500.wav
-    - assets/frequencies/1000.wav
-    - assets/frequencies/2000.wav
-    - assets/frequencies/4000.wav
-    - assets/frequencies/8000.wav
-    - assets/frequencies/10000.wav
-    - assets/frequencies/12000.wav
-    - assets/frequencies/14000.wav
-    - assets/frequencies/16000.wav
+    - assets/human-benchmark.webp
+    - assets/human-benchmark-no-background.webp
+    - assets/target.webp
+    - assets/frequencies/250.mp3
+    - assets/frequencies/500.mp3
+    - assets/frequencies/1000.mp3
+    - assets/frequencies/2000.mp3
+    - assets/frequencies/4000.mp3
+    - assets/frequencies/8000.mp3
+    - assets/frequencies/10000.mp3
+    - assets/frequencies/12000.mp3
+    - assets/frequencies/14000.mp3
+    - assets/frequencies/16000.mp3
     - assets/frequencies/18000.wav
     - assets/frequencies/20000.wav
     - assets/frequencies/22000.wav

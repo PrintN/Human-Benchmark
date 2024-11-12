@@ -64,11 +64,22 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
     _message = "Playing tone at ${frequency / 1000} KHz";
     setState(() {});
 
-    String assetPath = 'assets/frequencies/$frequency.wav';
+    String mp3Path = 'assets/frequencies/$frequency.mp3';
+    String wavPath = 'assets/frequencies/$frequency.wav';
+    String assetPath;
 
     try {
       await _audioPlayer.stop();
-      await _audioPlayer.setAsset(assetPath);
+
+      assetPath = await _audioPlayer
+          .setAsset(mp3Path)
+          .then((_) => mp3Path)
+          .catchError((_) => wavPath);
+
+      if (assetPath == wavPath) {
+        await _audioPlayer.setAsset(wavPath);
+      }
+
       _audioPlayer.play();
     } catch (e) {
       print("Failed to play sound: $e");

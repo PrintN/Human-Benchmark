@@ -562,7 +562,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                   ),
                   child: Center(
                     child: Image.asset(
-                      'assets/human-benchmark-no-background.png',
+                      'assets/human-benchmark-no-background.webp',
                       width: 100,
                       height: 100,
                     ),
@@ -933,7 +933,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     textPainter.layout(minWidth: 0, maxWidth: 500);
     textPainter.paint(canvas, const Offset(50, 60));
 
-    final ByteData data = await rootBundle.load('assets/human-benchmark.png');
+    final ByteData data = await rootBundle.load('assets/human-benchmark.webp');
     final ui.Image watermark =
         await decodeImageFromList(data.buffer.asUint8List());
 

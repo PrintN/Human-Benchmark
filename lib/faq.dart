@@ -42,7 +42,7 @@ class FAQScreen extends StatelessWidget {
               ),
               child: Center(
                 child: Image.asset(
-                  'assets/human-benchmark-no-background.png',
+                  'assets/human-benchmark-no-background.webp',
                   width: 100,
                   height: 100,
                 ),
