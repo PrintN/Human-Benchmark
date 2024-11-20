@@ -13,6 +13,7 @@ import 'sequence_memory.dart';
 import 'visual_memory.dart';
 import 'aim_trainer.dart';
 import 'info_retention.dart';
+import 'intelligence_quotient.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -88,15 +89,21 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80.0,
-        title: const Padding(
-          padding: EdgeInsets.only(top: 1.0),
-          child: Text(
-            'Human Benchmark',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 28.0,
-              letterSpacing: 1.2,
-            ),
+        title: Padding(
+          padding: const EdgeInsets.only(top: 1.0),
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final screenWidth = MediaQuery.of(context).size.width;
+              final fontSize = screenWidth > 400 ? 28.0 : 20.0;
+              return Text(
+                'Human Benchmark',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: fontSize,
+                  letterSpacing: 1.2,
+                ),
+              );
+            },
           ),
         ),
         centerTitle: true,
@@ -253,6 +260,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.menu_book_outlined,
           const InfoRetentionScreen(),
         ),
+        _buildGridButton(
+          context,
+          'Intelligence Quotient',
+          Icons.branding_watermark,
+          const IntelligenceQuotientScreen(),
+        ),
       ],
     );
   }
@@ -320,6 +333,12 @@ class _HomeScreenState extends State<HomeScreen> {
           'Info Retention',
           Icons.menu_book_outlined,
           const InfoRetentionScreen(),
+        ),
+        _buildListButton(
+          context,
+          'Intelligence Quotient',
+          Icons.branding_watermark,
+          const IntelligenceQuotientScreen(),
         ),
       ],
     );
