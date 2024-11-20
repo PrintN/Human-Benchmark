@@ -21,6 +21,9 @@ class VerbalMemoryTestScreen extends StatefulWidget {
 
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
+    if (results.length > 5) {
+      results.removeLast();
+    }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('verbal_memory_test_results', resultsStrings);
   }

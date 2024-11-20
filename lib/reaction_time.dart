@@ -15,6 +15,9 @@ class ReactionTimeScreen extends StatefulWidget {
 
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
+    if (results.length > 5) {
+      results.removeLast();
+    }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('reaction_time_results', resultsStrings);
   }
@@ -43,14 +46,13 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
     super.initState();
     _stopwatch = Stopwatch();
     ReactionTimeScreen.loadResults().then((_) {
-      setState(() {});
+      setState(() {
+        if (ReactionTimeScreen.results.isNotEmpty) {
+          _displayText =
+              'Last Reaction Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms';
+        }
+      });
     });
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
   }
 
   void _startTest() {
@@ -103,15 +105,16 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
       _stopwatch.stop();
       final reactionTime = _stopwatch.elapsedMilliseconds.toDouble();
 
-      ReactionTimeScreen.results.add(reactionTime);
+      ReactionTimeScreen.results.insert(0, reactionTime);
       ReactionTimeScreen.saveResults();
 
       setState(() {
         _started = false;
         _waitingForGreen = false;
         _screenColor = Colors.blue;
+        // Update display text with the new latest time
         _displayText = ReactionTimeScreen.results.isNotEmpty
-            ? 'Latest Time: ${ReactionTimeScreen.results.last.toStringAsFixed(2)} ms'
+            ? 'Latest Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
             : 'No previous results';
       });
     }
@@ -183,7 +186,7 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
               const SizedBox(height: 40),
               Text(
                 ReactionTimeScreen.results.isNotEmpty
-                    ? 'Last Reaction Time: ${ReactionTimeScreen.results.last.toStringAsFixed(2)} ms'
+                    ? 'Last Reaction Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
                     : 'No previous results',
                 style: const TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,

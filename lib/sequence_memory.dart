@@ -4,7 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class SequenceMemoryTestScreen extends StatefulWidget {
   @override
-  _SequenceMemoryTestScreenState createState() => _SequenceMemoryTestScreenState();
+  _SequenceMemoryTestScreenState createState() =>
+      _SequenceMemoryTestScreenState();
 
   static List<double> results = [];
 
@@ -12,12 +13,16 @@ class SequenceMemoryTestScreen extends StatefulWidget {
 
   static Future<void> loadResults() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedResults = prefs.getStringList('sequence_memory_test_results') ?? [];
+    final savedResults =
+        prefs.getStringList('sequence_memory_test_results') ?? [];
     results = savedResults.map((e) => double.tryParse(e) ?? 0.0).toList();
   }
 
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
+    if (results.length > 5) {
+      results.removeLast();
+    }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('sequence_memory_test_results', resultsStrings);
   }
@@ -118,48 +123,50 @@ class _SequenceMemoryTestScreenState extends State<SequenceMemoryTestScreen> {
     await SequenceMemoryTestScreen.saveResults();
   }
 
-Widget _buildSquare(int index) {
-  bool isHighlighted = index == _currentStep;
-  return GestureDetector(
-    onTap: () => _onSquareTapped(index),
-    child: Container(
-      margin: const EdgeInsets.all(8),
-      width: 90,
-      height: 90,
-      decoration: BoxDecoration(
-        gradient: isHighlighted
-            ? const LinearGradient(
-                colors: [Colors.blueAccent, Colors.lightBlue],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : LinearGradient(
-                colors: [Colors.grey[700]!, Colors.grey[900]!],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: Center(
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            color: isHighlighted ? Colors.white.withOpacity(0.7) : Colors.transparent,
+  Widget _buildSquare(int index) {
+    bool isHighlighted = index == _currentStep;
+    return GestureDetector(
+      onTap: () => _onSquareTapped(index),
+      child: Container(
+        margin: const EdgeInsets.all(8),
+        width: 90,
+        height: 90,
+        decoration: BoxDecoration(
+          gradient: isHighlighted
+              ? const LinearGradient(
+                  colors: [Colors.blueAccent, Colors.lightBlue],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : LinearGradient(
+                  colors: [Colors.grey[700]!, Colors.grey[900]!],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              spreadRadius: 2,
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Center(
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 250),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              color: isHighlighted
+                  ? Colors.white.withOpacity(0.7)
+                  : Colors.transparent,
+            ),
           ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
   Widget _buildStartScreen() {
     final lastScore = SequenceMemoryTestScreen.results.isNotEmpty
@@ -212,7 +219,8 @@ Widget _buildSquare(int index) {
               ElevatedButton(
                 onPressed: _startTest,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
@@ -240,63 +248,60 @@ Widget _buildSquare(int index) {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Sequence Memory', style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        title: const Text('Sequence Memory',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Center(
-        child: _testStarted
-            ? _buildTestUI()
-            : _buildStartScreen(),
+        child: _testStarted ? _buildTestUI() : _buildStartScreen(),
       ),
     );
   }
 
-Widget _buildTestUI() {
-  return Center(
-    child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20.0),
-          child: Text(
-            "Current Sequence Length: $_score",
-            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
-        ),
-        
-        SizedBox(
-          width: 340, 
-          height: 340,
-          child: GridView.count(
-            shrinkWrap: true,
-            crossAxisCount: 3,
-            children: List.generate(9, (index) => _buildSquare(index)),
-          ),
-        ),
-        
-        const SizedBox(height: 20), 
-        
-        if (_testEnded) ...[
+  Widget _buildTestUI() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Text(
-              "Test Ended. You reached a sequence of $_score.",
-              style: const TextStyle(fontSize: 20),
-              textAlign: TextAlign.center,
+              "Current Sequence Length: $_score",
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ),
+          SizedBox(
+            width: 340,
+            height: 340,
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisCount: 3,
+              children: List.generate(9, (index) => _buildSquare(index)),
             ),
           ),
           const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                _testEnded = false; 
-                _startTest();
-              });
-            },
-            child: const Text("Restart Test"),
-          ),
-        ]
-      ],
-    ),
-  );
-}
+          if (_testEnded) ...[
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                "Test Ended. You reached a sequence of $_score.",
+                style: const TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _testEnded = false;
+                  _startTest();
+                });
+              },
+              child: const Text("Restart Test"),
+            ),
+          ]
+        ],
+      ),
+    );
+  }
 }

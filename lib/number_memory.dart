@@ -15,6 +15,9 @@ class NumberMemoryScreen extends StatefulWidget {
 
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
+    if (results.length > 5) {
+      results.removeLast();
+    }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('number_memory_results', resultsStrings);
   }
@@ -36,17 +39,17 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
   int _score = 0;
   String _sequence = '';
   String _userInput = '';
-  int _numberCount = 1; 
-  bool _showingNumbers = true; 
-  int _displayTime = 1; 
+  int _numberCount = 1;
+  bool _showingNumbers = true;
+  int _displayTime = 1;
 
-  late AnimationController _controller; 
-  late Animation<double> _animation; 
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    NumberMemoryScreen.loadResults(); 
+    NumberMemoryScreen.loadResults();
 
     _controller = AnimationController(
       vsync: this,
@@ -69,7 +72,7 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
 
   @override
   void dispose() {
-    _controller.dispose(); 
+    _controller.dispose();
     super.dispose();
   }
 
@@ -92,15 +95,15 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
       _gameEnded = true;
     });
 
-    NumberMemoryScreen.results.add(_score); 
-    NumberMemoryScreen.saveResults(); 
+    NumberMemoryScreen.results.add(_score);
+    NumberMemoryScreen.saveResults();
   }
 
   void _generateSequence() {
     final random = Random();
     final digits = List.generate(_numberCount, (index) => random.nextInt(10));
     _sequence = digits.join('');
-    print('Generated sequence: $_sequence'); 
+    print('Generated sequence: $_sequence');
   }
 
   void _showSequence() {
@@ -142,7 +145,8 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
       appBar: AppBar(
         title: const Text(
           'Number Memory',
-          style: TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold),
+          style:
+              TextStyle(fontFamily: 'RobotoMono', fontWeight: FontWeight.bold),
         ),
       ),
       body: _gameStarted
@@ -201,16 +205,21 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                                 )
                               : Column(
                                   children: [
-                                    const SizedBox(height: 20,),
+                                    const SizedBox(
+                                      height: 20,
+                                    ),
                                     Container(
                                       width: 350,
-                                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20.0),
                                       decoration: BoxDecoration(
                                         color: Colors.white,
-                                        borderRadius: BorderRadius.circular(12.0),
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black.withOpacity(0.2),
+                                            color:
+                                                Colors.black.withOpacity(0.2),
                                             blurRadius: 6,
                                             spreadRadius: 3,
                                             offset: const Offset(0, 3),
@@ -238,11 +247,13 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 32.0, vertical: 16.0),
                                         shape: RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(30.0),
+                                          borderRadius:
+                                              BorderRadius.circular(30.0),
                                         ),
                                         elevation: 10,
                                         shadowColor: Colors.black26,
-                                        backgroundColor: const Color(0xFF004D99),
+                                        backgroundColor:
+                                            const Color(0xFF004D99),
                                       ),
                                       child: const Text(
                                         'Submit',
@@ -352,7 +363,8 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
               ElevatedButton(
                 onPressed: _startGame,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
                   backgroundColor: const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
