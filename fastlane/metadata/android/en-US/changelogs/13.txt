@@ -1,0 +1,5 @@
+v1.0.3
+Change(s):
+- New Test: Added a new test to evaluate Information Retention.
+- Permission Update: Removed the internet permission, which is required for Flutter development but not necessary for the app release.
+- Renaming: Updated names for several tests to improve consistency.

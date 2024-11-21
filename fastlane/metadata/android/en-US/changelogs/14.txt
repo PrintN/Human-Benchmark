@@ -1,0 +1,5 @@
+v1.0.4
+Change(s):
+- New Intelligence Quotient test added.
+- Limited storage of latest 5 test results to prevent build-up.
+- FAQ page updated.
