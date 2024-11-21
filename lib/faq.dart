@@ -61,7 +61,8 @@ class FAQScreen extends StatelessWidget {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const StatisticsScreen()),
+                  MaterialPageRoute(
+                      builder: (context) => const StatisticsScreen()),
                 );
               },
             ),
@@ -88,22 +89,7 @@ class FAQScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Human Benchmark is an app designed to test and improve your cognitive abilities, including reaction time and typing speed.',
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                ),
-              ],
-            ),
-            ExpansionTile(
-              title: Text(
-                'How to Use the App',
-                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-              ),
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Text(
-                    'Use the menu to access different sections like Overview, Statistics, and FAQ.',
+                    'Human Benchmark is an app designed to test and improve your cognitive abilities, with various tests like reaction time & typing speed.',
                     style: TextStyle(fontSize: 16.0),
                   ),
                 ),
@@ -118,7 +104,7 @@ class FAQScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'This app was made by PrintN, heavily inspired by the website humanbenchmark.com',
+                    'This app was made by PrintN, heavily inspired by the original humanbenchmark.com',
                     style: TextStyle(fontSize: 16.0),
                   ),
                 ),
@@ -133,7 +119,7 @@ class FAQScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Yes! You can find the source code of Human Benchmark on github.',
+                    'Yes, you can find the source code of Human Benchmark on GitHub.',
                     style: TextStyle(fontSize: 16.0),
                   ),
                 ),
@@ -148,7 +134,37 @@ class FAQScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Yes, you can use Human Benchmark offline.',
+                    'Yes, Human Benchmark is designed to work 100% offline.',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+              ],
+            ),
+            ExpansionTile(
+              title: Text(
+                'Found an issue?',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'If you have encountered an issue, please open a new issue in the Human Benchmark GitHub repository.',
+                    style: TextStyle(fontSize: 16.0),
+                  ),
+                ),
+              ],
+            ),
+            ExpansionTile(
+              title: Text(
+                'How is the average calculated?',
+                style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+              ),
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text(
+                    'For each test, Human Benchmark stores only the latest 5 results, from which the average is calculated.',
                     style: TextStyle(fontSize: 16.0),
                   ),
                 ),
