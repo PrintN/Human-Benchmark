@@ -18,6 +18,7 @@ import 'sequence_memory.dart';
 import 'visual_memory.dart';
 import 'aim_trainer.dart';
 import 'info_retention.dart';
+import 'intelligence_quotient.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -46,6 +47,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     await VisualMemoryTestScreen.loadResults();
     await AimTrainerScreen.loadResults();
     await InfoRetentionScreen.loadResults();
+    await IntelligenceQuotientScreen.loadResults();
     setState(() {});
   }
 
@@ -240,6 +242,21 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           0,
           100
         ];
+        final List<int> intelligenceQuotientValues = [
+          0,
+          0,
+          0,
+          0,
+          8,
+          60,
+          12,
+          2,
+          1,
+          1,
+          0,
+          0,
+          100
+        ];
 
         final List<double> reactionTimeDistribution =
             _generateCustomDistribution(reactionTimeValues);
@@ -261,6 +278,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             _generateCustomDistribution(aimTrainerValues);
         final List<double> infoRetentionDistribution =
             _generateCustomDistribution(infoRetentionValues);
+        final List<double> intelligenceQuotientDistribution =
+            _generateCustomDistribution(intelligenceQuotientValues);
 
         final List<double> reactionTimeResults = ReactionTimeScreen.results;
         final List<double> typingSpeedResults = TypingScreen.results;
@@ -273,6 +292,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         final List<double> visualMemoryResults = VisualMemoryTestScreen.results;
         final List<double> aimTrainerResults = AimTrainerScreen.results;
         final List<double> infoRetentionResults = InfoRetentionScreen.results;
+        final List<int> intelligenceQuotientResults =
+            IntelligenceQuotientScreen.results;
 
         final List<double> latestReactionTimeResults =
             _getLatestResults(reactionTimeResults);
@@ -329,6 +350,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ? infoRetentionResults.reduce((a, b) => a + b) /
                 infoRetentionResults.length.toDouble()
             : 0;
+
+        final double intelligenceQuotientAverage =
+            intelligenceQuotientResults.isNotEmpty
+                ? intelligenceQuotientResults.reduce((a, b) => a + b) /
+                    intelligenceQuotientResults.length.toDouble()
+                : 0;
 
         final List<String> typingSpeedLabels = [
           '10',
@@ -475,6 +502,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           '9',
           ' '
         ];
+        final List<String> intelligenceQuotientLabels = [
+          '0',
+          '20',
+          '40',
+          '60',
+          '80',
+          '100',
+          '120',
+          '140',
+          '160',
+          '200',
+          ' '
+        ];
 
         return Scaffold(
           appBar: AppBar(
@@ -513,6 +553,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         visualMemoryAverage: visualMemoryAverage,
                         aimTrainerAverage: aimTrainerAverage,
                         infoRetentionAverage: infoRetentionAverage,
+                        intelligenceQuotientAverage:
+                            intelligenceQuotientAverage,
                       );
                       break;
                     case 'delete':
@@ -692,6 +734,12 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         infoRetentionLabels,
                         'correct',
                         infoRetentionAverage),
+                    _buildStatisticSection(
+                        'Intelligence Quotient',
+                        intelligenceQuotientDistribution,
+                        intelligenceQuotientLabels,
+                        'IQ',
+                        intelligenceQuotientAverage),
                   ],
                 ),
               ),
@@ -878,6 +926,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 await VisualMemoryTestScreen.clearResults();
                 await AimTrainerScreen.clearResults();
                 await InfoRetentionScreen.clearResults();
+                await IntelligenceQuotientScreen.clearResults();
                 setState(() {});
                 Navigator.of(context).pop();
               },
@@ -899,6 +948,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     required double visualMemoryAverage,
     required double aimTrainerAverage,
     required double infoRetentionAverage,
+    required double intelligenceQuotientAverage,
   }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(
@@ -920,7 +970,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             'Average Sequence Memory Score: ${sequenceMemoryAverage.toStringAsFixed(0)}\n'
             'Average Visual Memory Score: ${visualMemoryAverage.toStringAsFixed(0)}\n'
             'Average Aim Trainer Time: ${aimTrainerAverage.toStringAsFixed(0)} ms\n'
-            'Average Info Retention Score: ${infoRetentionAverage.toStringAsFixed(0)} correct',
+            'Average Info Retention Score: ${infoRetentionAverage.toStringAsFixed(0)} correct'
+            'Average Intelligence Quotient Score: ${intelligenceQuotientAverage.toStringAsFixed(0)} IQ',
         style: const TextStyle(
           color: Colors.black,
           fontSize: 24,

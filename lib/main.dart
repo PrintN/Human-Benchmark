@@ -263,7 +263,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _buildGridButton(
           context,
           'Intelligence Quotient',
-          Icons.branding_watermark,
+          Icons.lightbulb,
           const IntelligenceQuotientScreen(),
         ),
       ],
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _buildListButton(
           context,
           'Intelligence Quotient',
-          Icons.branding_watermark,
+          Icons.lightbulb,
           const IntelligenceQuotientScreen(),
         ),
       ],
