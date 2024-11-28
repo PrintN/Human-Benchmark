@@ -22,7 +22,7 @@ class VerbalMemoryTestScreen extends StatefulWidget {
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
     if (results.length > 5) {
-      results.removeLast();
+      results.removeAt(0);
     }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('verbal_memory_test_results', resultsStrings);
@@ -55,11 +55,17 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
   }
 
   Future<void> _loadWords() async {
-    final String response = await rootBundle.loadString('assets/words.json');
-    final List<dynamic> data = json.decode(response);
-    setState(() {
-      _words = List<String>.from(data);
-    });
+    try {
+      final String response = await rootBundle.loadString('assets/words.json');
+      final List<dynamic> data = json.decode(response);
+      setState(() {
+        _words = List<String>.from(data);
+      });
+    } catch (e) {
+      print('Error loading words: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to load word list!')));
+    }
   }
 
   void _startTest() {
@@ -77,25 +83,43 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
   }
 
   void _showNextWord() {
-    if (_shownWords.length < _words.length) {
-      String nextWord;
-      bool shouldShowSeenWord = _random.nextDouble() < 0.3;
-
-      if (shouldShowSeenWord && _shownWords.isNotEmpty) {
-        nextWord = _shownWords[_random.nextInt(_shownWords.length)];
-      } else {
-        do {
-          nextWord = _words[_random.nextInt(_words.length)];
-        } while (_shownWordsSet.contains(nextWord) &&
-            _shownWords.length < _words.length);
-      }
-
-      setState(() {
-        _currentWord = nextWord;
-      });
-    } else {
+    if (_words.isEmpty || (_shownWordsSet.length == _words.length)) {
       _endTest();
+      return;
     }
+
+    String? nextWord;
+    final maxAttempts = 5;
+    int attempts = 0;
+
+    while (nextWord == null && attempts < maxAttempts) {
+      bool shouldShowSeenWord = _random.nextDouble() < 0.3;
+      if (shouldShowSeenWord && _shownWords.isNotEmpty) {
+        List<String> seenWords =
+            _shownWords.where((word) => word != _currentWord).toList();
+        if (seenWords.isNotEmpty) {
+          nextWord = seenWords[_random.nextInt(seenWords.length)];
+        }
+      } else {
+        List<String> unseenWords = _words
+            .where((word) =>
+                !_shownWordsSet.contains(word) && word != _currentWord)
+            .toList();
+        if (unseenWords.isNotEmpty) {
+          nextWord = unseenWords[_random.nextInt(unseenWords.length)];
+        }
+      }
+      attempts++;
+    }
+
+    if (nextWord == null) {
+      _endTest();
+      return;
+    }
+
+    setState(() {
+      _currentWord = nextWord!;
+    });
   }
 
   void _endTest() async {
