@@ -1,0 +1,5 @@
+Change(s):
+- Added Dark Mode theme.
+- Fixed verbal memory bug.
+- Updated share statistics image.
+- Changed test titles for clarity.
