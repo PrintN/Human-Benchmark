@@ -1010,34 +1010,43 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(
-        recorder, Rect.fromPoints(const Offset(0, 0), const Offset(500, 700)));
+        recorder, Rect.fromPoints(const Offset(0, 0), const Offset(500, 550)));
 
     final Paint paint = Paint()..color = Colors.white;
-    const Rect rect = Rect.fromLTWH(0, 0, 500, 700);
+    const Rect rect = Rect.fromLTWH(0, 0, 500, 550);
     canvas.drawRect(rect, paint);
 
     final TextPainter textPainter = TextPainter(
       text: TextSpan(
-        text:
-            'Average Reaction Time: ${reactionTimeAverage.toStringAsFixed(2)} ms\n'
-            'Average Typing Speed: ${typingSpeedAverage.toStringAsFixed(0)} WPM\n'
-            'Average Number Memory Score: ${numberMemoryAverage.toStringAsFixed(0)}\n'
-            'Average Chimp Test Score: ${chimpTestAverage.toStringAsFixed(0)}\n'
-            'Average Hearing Test Frequency: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
-            'Average Verbal Memory Score: ${verbalMemoryAverage.toStringAsFixed(0)}\n'
-            'Average Sequence Memory Score: ${sequenceMemoryAverage.toStringAsFixed(0)}\n'
-            'Average Visual Memory Score: ${visualMemoryAverage.toStringAsFixed(0)}\n'
-            'Average Aim Trainer Time: ${aimTrainerAverage.toStringAsFixed(0)} ms\n'
-            'Average Info Retention Score: ${infoRetentionAverage.toStringAsFixed(0)} correct'
-            'Average Intelligence Quotient Score: ${intelligenceQuotientAverage.toStringAsFixed(0)} IQ',
+        text: 'Average',
         style: const TextStyle(
           color: Colors.black,
-          fontSize: 24,
+          fontSize: 48,
           fontWeight: FontWeight.bold,
         ),
       ),
       textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center,
+    );
+    textPainter.layout(minWidth: 0, maxWidth: 500);
+    textPainter.paint(canvas, const Offset(50, 60));
+
+    textPainter.text = TextSpan(
+      text: '\n\nReaction Time: ${reactionTimeAverage.toStringAsFixed(2)} ms\n'
+          'Typing Speed: ${typingSpeedAverage.toStringAsFixed(0)} WPM\n'
+          'Number Memory: ${numberMemoryAverage.toStringAsFixed(0)} score\n'
+          'Chimp Test: ${chimpTestAverage.toStringAsFixed(0)} score\n'
+          'Hearing Test: ${hearingTestAverage.toStringAsFixed(2)} KHz\n'
+          'Verbal Memory: ${verbalMemoryAverage.toStringAsFixed(0)} score\n'
+          'Sequence Memory: ${sequenceMemoryAverage.toStringAsFixed(0)} score\n'
+          'Visual Memory: ${visualMemoryAverage.toStringAsFixed(0)} score\n'
+          'Aim Trainer: ${aimTrainerAverage.toStringAsFixed(0)} ms\n'
+          'Info Retention: ${infoRetentionAverage.toStringAsFixed(0)} correct\n'
+          'Intelligence Quotient: ${intelligenceQuotientAverage.toStringAsFixed(0)} IQ',
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
     );
     textPainter.layout(minWidth: 0, maxWidth: 500);
     textPainter.paint(canvas, const Offset(50, 60));
@@ -1048,8 +1057,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
     const double watermarkWidth = 60;
     const double watermarkHeight = 60;
-    const double watermarkX = 20;
-    const double watermarkY = 650 - watermarkHeight - 16;
+    const double watermarkX = 40;
+    const double watermarkY = 550 - watermarkHeight - 16;
 
     const Rect watermarkRect = Rect.fromLTWH(
       watermarkX,
