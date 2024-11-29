@@ -6,7 +6,9 @@ import 'package:path_provider/path_provider.dart';
 import 'package:flutter/services.dart';
 import 'package:share_plus/share_plus.dart';
 import 'dart:math';
+import 'package:provider/provider.dart';
 
+import 'main.dart';
 import 'faq.dart';
 import 'reaction_time.dart';
 import 'typing.dart';
@@ -564,79 +566,129 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                       break;
                   }
                 },
-                itemBuilder: (BuildContext context) => [
-                  const PopupMenuItem<String>(
-                    value: 'share',
-                    child: Row(
-                      children: [
-                        Icon(Icons.share, color: Colors.black),
-                        SizedBox(width: 10),
-                        Text('Share'),
-                      ],
+                itemBuilder: (BuildContext context) {
+                  final isDarkMode =
+                      Theme.of(context).brightness == Brightness.dark;
+
+                  return [
+                    PopupMenuItem<String>(
+                      value: 'share',
+                      child: Row(
+                        children: [
+                          Icon(Icons.share,
+                              color: isDarkMode ? Colors.white : Colors.black),
+                          const SizedBox(width: 10),
+                          Text('Share',
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ],
+                      ),
                     ),
-                  ),
-                  const PopupMenuItem<String>(
-                    value: 'delete',
-                    child: Row(
-                      children: [
-                        Icon(Icons.delete, color: Colors.black),
-                        SizedBox(width: 10),
-                        Text('Delete'),
-                      ],
+                    PopupMenuItem<String>(
+                      value: 'delete',
+                      child: Row(
+                        children: [
+                          Icon(Icons.delete,
+                              color: isDarkMode ? Colors.white : Colors.black),
+                          const SizedBox(width: 10),
+                          Text('Delete',
+                              style: TextStyle(
+                                  color: isDarkMode
+                                      ? Colors.white
+                                      : Colors.black)),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ];
+                },
               ),
             ],
           ),
           drawer: Drawer(
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children: [
-                Container(
-                  height: 150,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
+            child: Consumer<ThemeProvider>(
+              builder: (context, themeProvider, child) {
+                bool isDarkMode = themeProvider.isDarkMode;
+
+                return Container(
+                  color: isDarkMode ? Colors.black : const Color(0xFFF5F5F5),
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: [
+                      Container(
+                        height: 150,
+                        decoration: BoxDecoration(
+                          gradient: isDarkMode
+                              ? null
+                              : const LinearGradient(
+                                  colors: [
+                                    Color(0xFF004D99),
+                                    Color(0xFF0073E6)
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                          color: isDarkMode ? Colors.black : null,
+                        ),
+                        child: Center(
+                          child: Image.asset(
+                            'assets/human-benchmark-no-background.webp',
+                            width: 100,
+                            height: 100,
+                          ),
+                        ),
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.home,
+                          color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                        ),
+                        title: const Text('Human Benchmark'),
+                        onTap: () {
+                          Navigator.pushNamed(context, '/');
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.bar_chart,
+                          color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                        ),
+                        title: const Text('Statistics'),
+                        onTap: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      ListTile(
+                        leading: Icon(
+                          Icons.help,
+                          color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                        ),
+                        title: const Text('FAQ'),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const FAQScreen()),
+                          );
+                        },
+                      ),
+                      const Divider(),
+                      ListTile(
+                        leading: Icon(
+                          Icons.brightness_6,
+                          color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                        ),
+                        title: const Text('Toggle Dark/Light Mode'),
+                        onTap: () {
+                          Provider.of<ThemeProvider>(context, listen: false)
+                              .toggleTheme();
+                        },
+                      ),
+                    ],
                   ),
-                  child: Center(
-                    child: Image.asset(
-                      'assets/human-benchmark-no-background.webp',
-                      width: 100,
-                      height: 100,
-                    ),
-                  ),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.home, color: Color(0xFF004D99)),
-                  title: const Text('Human Benchmark'),
-                  onTap: () {
-                    Navigator.pushNamed(context, '/');
-                  },
-                ),
-                ListTile(
-                  leading:
-                      const Icon(Icons.bar_chart, color: Color(0xFF004D99)),
-                  title: const Text('Statistics'),
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                ListTile(
-                  leading: const Icon(Icons.help, color: Color(0xFF004D99)),
-                  title: const Text('FAQ'),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const FAQScreen()),
-                    );
-                  },
-                ),
-              ],
+                );
+              },
             ),
           ),
           body: Stack(
@@ -752,6 +804,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
 
   Widget _buildStatisticSection(String title, List<double> data,
       List<String> xAxisLabels, String unit, double average) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -764,10 +817,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             ),
             Text(
               'Average: ${average.toStringAsFixed(2)} $unit',
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
-                color: Colors.black,
+                color: isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ],
@@ -776,7 +829,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         SizedBox(
           height: 300,
           child: LineChart(
-              _buildDistributionChartData(data, xAxisLabels, unit, average)),
+            _buildDistributionChartData(data, xAxisLabels, unit, average),
+          ),
         ),
         const SizedBox(height: 20),
       ],

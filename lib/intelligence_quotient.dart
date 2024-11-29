@@ -176,6 +176,8 @@ class _IntelligenceQuotientScreenState
         ? 'Latest Score: ${IntelligenceQuotientScreen.results.last}'
         : 'No previous results';
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Intelligence Quotient',
@@ -183,12 +185,21 @@ class _IntelligenceQuotientScreenState
                 fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+        decoration: BoxDecoration(
+          gradient: isDarkMode
+              ? const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 3, 3, 3),
+                    Color.fromARGB(255, 20, 20, 20)
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : const LinearGradient(
+                  colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
         ),
         child: Center(
           child: Padding(
@@ -230,7 +241,9 @@ class _IntelligenceQuotientScreenState
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 32.0, vertical: 16.0),
-                    backgroundColor: const Color(0xFF004D99),
+                    backgroundColor: isDarkMode
+                        ? const Color.fromARGB(255, 24, 24, 24)
+                        : const Color(0xFF004D99),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30.0),
                     ),
@@ -264,6 +277,8 @@ class _IntelligenceQuotientScreenState
       return const Center(child: CircularProgressIndicator());
     }
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -274,7 +289,7 @@ class _IntelligenceQuotientScreenState
       ),
       body: Container(
         padding: const EdgeInsets.all(16.0),
-        color: Colors.white, // Changed background to white
+        color: isDarkMode ? Colors.black : Colors.white,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -283,20 +298,42 @@ class _IntelligenceQuotientScreenState
               children: [
                 Text(
                   'Time left: ${_timeLeft ~/ 60}:${(_timeLeft % 60).toString().padLeft(2, '0')}',
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: isDarkMode ? Colors.white : Colors.black),
                 ),
                 Text(
                   '${currentQuestionIndex + 1}/30',
-                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                  style: TextStyle(
+                      fontSize: 20,
+                      color: isDarkMode ? Colors.white : Colors.black),
                 ),
               ],
             ),
             const SizedBox(height: 20),
             Center(
-              child: Image.asset(
-                questions[currentQuestionIndex]['question'] as String,
-                fit: BoxFit.cover,
-                height: 200,
+              child: Container(
+                padding: const EdgeInsets.all(8.0),
+                decoration: BoxDecoration(
+                  color: isDarkMode ? Colors.white : Colors.transparent,
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: const Offset(2, 2),
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Image.asset(
+                    questions[currentQuestionIndex]['question'] as String,
+                    fit: BoxFit.cover,
+                    height: 200,
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -309,9 +346,12 @@ class _IntelligenceQuotientScreenState
                   child: Container(
                     width: MediaQuery.of(context).size.width / 3 - 20,
                     decoration: BoxDecoration(
+                      color: isDarkMode ? Colors.white : Colors.transparent,
                       border: Border.all(
                         color: _isAnswerSelected(index + 1)
-                            ? Colors.blueAccent
+                            ? isDarkMode
+                                ? const Color.fromARGB(255, 131, 131, 131)
+                                : Colors.blueAccent
                             : Colors.transparent,
                         width: 3,
                       ),
@@ -336,7 +376,9 @@ class _IntelligenceQuotientScreenState
                 ElevatedButton(
                   onPressed: _previousQuestion,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Blue button background
+                    backgroundColor: isDarkMode
+                        ? Color.fromARGB(255, 24, 24, 24)
+                        : Colors.blue,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 24),
                     shape: RoundedRectangleBorder(
@@ -348,14 +390,16 @@ class _IntelligenceQuotientScreenState
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // White text color
+                      color: Colors.white,
                     ),
                   ),
                 ),
                 ElevatedButton(
                   onPressed: _nextQuestion,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue, // Blue button background
+                    backgroundColor: isDarkMode
+                        ? Color.fromARGB(255, 24, 24, 24)
+                        : Colors.blue,
                     padding: const EdgeInsets.symmetric(
                         vertical: 12, horizontal: 24),
                     shape: RoundedRectangleBorder(
@@ -367,7 +411,7 @@ class _IntelligenceQuotientScreenState
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: Colors.white, // White text color
+                      color: Colors.white,
                     ),
                   ),
                 ),

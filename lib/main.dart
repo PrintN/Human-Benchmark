@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'statistics.dart';
 import 'faq.dart';
 
@@ -25,27 +26,80 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Human Benchmark',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: const Color(0xFFF5F5F5),
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.black87),
-        ),
-        appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF004D99),
-          foregroundColor: Colors.white,
-          elevation: 5,
-          shadowColor: Colors.black26,
-        ),
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Color(0xFF004D99),
-          textTheme: ButtonTextTheme.primary,
-        ),
+    return ChangeNotifierProvider(
+      create: (_) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) {
+          return MaterialApp(
+            title: 'Human Benchmark',
+            theme: themeProvider.isDarkMode
+                ? ThemeData.dark().copyWith(
+                    primaryColor: Colors.black,
+                    scaffoldBackgroundColor: Colors.black,
+                    appBarTheme: const AppBarTheme(
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.white),
+                    textTheme: const TextTheme(
+                      bodyMedium: TextStyle(color: Colors.white),
+                    ),
+                    buttonTheme: const ButtonThemeData(
+                      buttonColor: Colors.white,
+                      textTheme: ButtonTextTheme.primary,
+                    ),
+                    cardColor: Colors.black,
+                    listTileTheme: const ListTileThemeData(
+                      iconColor: Colors.white,
+                      textColor: Colors.white,
+                    ),
+                  )
+                : ThemeData.light().copyWith(
+                    primaryColor: const Color(0xFF004D99),
+                    scaffoldBackgroundColor: const Color(0xFFF5F5F5),
+                    appBarTheme: const AppBarTheme(
+                      backgroundColor: Color(0xFF004D99),
+                      foregroundColor: Colors.white,
+                    ),
+                    textTheme: const TextTheme(
+                      bodyMedium: TextStyle(color: Colors.black),
+                    ),
+                    buttonTheme: const ButtonThemeData(
+                      buttonColor: Color(0xFF004D99),
+                      textTheme: ButtonTextTheme.primary,
+                    ),
+                    cardColor: Colors.white,
+                    listTileTheme: const ListTileThemeData(
+                      iconColor: Color(0xFF004D99),
+                      textColor: Colors.black,
+                    ),
+                  ),
+            home: const HomeScreen(),
+          );
+        },
       ),
-      home: const HomeScreen(),
     );
+  }
+}
+
+class ThemeProvider with ChangeNotifier {
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  ThemeProvider() {
+    _loadThemePreference();
+  }
+
+  Future<void> _loadThemePreference() async {
+    final prefs = await SharedPreferences.getInstance();
+    _isDarkMode = prefs.getBool('isDarkMode') ?? false;
+    notifyListeners();
+  }
+
+  Future<void> toggleTheme() async {
+    _isDarkMode = !_isDarkMode;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isDarkMode', _isDarkMode);
+    notifyListeners();
   }
 }
 
@@ -110,14 +164,13 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Builder(
           builder: (context) {
             return Padding(
-              padding: const EdgeInsets.only(top: 1.0),
-              child: IconButton(
-                icon: const Icon(Icons.menu),
-                onPressed: () {
-                  Scaffold.of(context).openDrawer();
-                },
-              ),
-            );
+                padding: const EdgeInsets.only(top: 1.0),
+                child: IconButton(
+                  icon: const Icon(Icons.menu),
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                ));
           },
         ),
         actions: [
@@ -136,55 +189,92 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            Container(
-              height: 150,
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+        child: Consumer<ThemeProvider>(
+          builder: (context, themeProvider, child) {
+            bool isDarkMode = themeProvider.isDarkMode;
+
+            return Container(
+              color: isDarkMode
+                  ? Colors.black
+                  : const Color(
+                      0xFFF5F5F5), // Apply background color to the entire drawer
+              child: ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  Container(
+                    height: 150,
+                    decoration: BoxDecoration(
+                      gradient: isDarkMode
+                          ? null
+                          : const LinearGradient(
+                              colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                      color: isDarkMode ? Colors.black : null,
+                    ),
+                    child: Center(
+                      child: Image.asset(
+                        'assets/human-benchmark-no-background.webp',
+                        width: 100,
+                        height: 100,
+                      ),
+                    ),
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.home,
+                      color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                    ),
+                    title: const Text('Human Benchmark'),
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.bar_chart,
+                      color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                    ),
+                    title: const Text('Statistics'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const StatisticsScreen()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(
+                      Icons.help,
+                      color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                    ),
+                    title: const Text('FAQ'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const FAQScreen()),
+                      );
+                    },
+                  ),
+                  const Divider(),
+                  ListTile(
+                    leading: Icon(
+                      Icons.brightness_6,
+                      color: isDarkMode ? Colors.white : Color(0xFF004D99),
+                    ),
+                    title: const Text('Toggle Dark/Light Mode'),
+                    onTap: () {
+                      Provider.of<ThemeProvider>(context, listen: false)
+                          .toggleTheme();
+                    },
+                  ),
+                ],
               ),
-              child: Center(
-                child: Image.asset(
-                  'assets/human-benchmark-no-background.webp',
-                  width: 100,
-                  height: 100,
-                ),
-              ),
-            ),
-            ListTile(
-              leading: const Icon(Icons.home, color: Color(0xFF004D99)),
-              title: const Text('Human Benchmark'),
-              onTap: () {
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.bar_chart, color: Color(0xFF004D99)),
-              title: const Text('Statistics'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const StatisticsScreen()),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.help, color: Color(0xFF004D99)),
-              title: const Text('FAQ'),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const FAQScreen()),
-                );
-              },
-            ),
-          ],
+            );
+          },
         ),
       ),
       body: SafeArea(
@@ -346,15 +436,26 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildGridButton(
       BuildContext context, String title, IconData icon, Widget destination) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return GestureDetector(
       onTap: () => _onButtonClick(destination),
       child: Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          gradient: isDarkMode
+              ? const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 12, 12, 12),
+                    Color.fromARGB(255, 23, 23, 24)
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              : const LinearGradient(
+                  colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
           borderRadius: BorderRadius.circular(16.0),
           boxShadow: [
             BoxShadow(
@@ -368,15 +469,20 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 50.0, color: Colors.white),
+            Icon(
+              icon,
+              size: 50.0,
+              color: Colors.white,
+            ),
             const SizedBox(height: 8.0),
             Text(
               title,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ],
         ),
@@ -386,21 +492,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildListButton(
       BuildContext context, String title, IconData icon, Widget destination) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return ListTile(
-      leading: Icon(icon, size: 50.0, color: const Color(0xFF004D99)),
+      leading: Icon(icon,
+          size: 50.0,
+          color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
       title: Text(
         title,
-        style: const TextStyle(
+        style: TextStyle(
             fontSize: 20.0,
-            color: Color(0xFF004D99),
+            color: isDarkMode ? Colors.white : const Color(0xFF004D99),
             fontWeight: FontWeight.w500),
       ),
       onTap: () => _onButtonClick(destination),
-      trailing: const Icon(Icons.arrow_forward_ios, color: Color(0xFF004D99)),
-      tileColor: Colors.white,
+      trailing: Icon(Icons.arrow_forward_ios,
+          color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
+      tileColor:
+          isDarkMode ? const Color.fromARGB(255, 19, 18, 18) : Colors.white,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
-        side: const BorderSide(color: Color(0xFFE0E0E0)),
+        side: BorderSide(
+            color: isDarkMode ? Colors.grey[700]! : const Color(0xFFE0E0E0)),
       ),
       contentPadding:
           const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),

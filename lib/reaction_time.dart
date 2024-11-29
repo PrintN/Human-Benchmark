@@ -147,13 +147,24 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
   }
 
   Widget _buildStartScreen(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+      decoration: BoxDecoration(
+        gradient: isDarkMode
+            ? const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 3, 3, 3),
+                  Color.fromARGB(255, 20, 20, 20)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : const LinearGradient(
+                colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
       ),
       child: Center(
         child: Padding(
@@ -197,7 +208,9 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16.0),
-                  backgroundColor: const Color(0xFF004D99),
+                  backgroundColor: isDarkMode
+                      ? const Color.fromARGB(255, 24, 24, 24)
+                      : const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),

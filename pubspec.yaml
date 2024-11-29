@@ -13,6 +13,7 @@ dependencies:
   cupertino_icons: ^1.0.8
   fl_chart: ^0.69.0
   shared_preferences: ^2.3.2
+  provider: ^6.1.0
   share_plus: ^10.0.2
   just_audio: ^0.9.37
 

@@ -141,6 +141,8 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -151,12 +153,21 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
       ),
       body: _gameStarted
           ? Container(
-              decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+              decoration: BoxDecoration(
+                gradient: isDarkMode
+                    ? const LinearGradient(
+                        colors: [
+                          Color.fromARGB(255, 0, 0, 0),
+                          Color.fromARGB(255, 0, 0, 0)
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      )
+                    : const LinearGradient(
+                        colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
               ),
               child: Center(
                 child: Column(
@@ -228,16 +239,20 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                                       ),
                                       child: TextField(
                                         keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
+                                        decoration: InputDecoration(
                                           border: InputBorder.none,
                                           hintText: 'Enter number here',
+                                          hintStyle: TextStyle(
+                                            color: Colors.black,
+                                          ),
                                         ),
                                         onChanged: (value) {
                                           setState(() {
                                             _userInput = value;
                                           });
                                         },
-                                        style: const TextStyle(fontSize: 20),
+                                        style: const TextStyle(
+                                            fontSize: 20, color: Colors.black),
                                       ),
                                     ),
                                     const SizedBox(height: 30),
@@ -252,8 +267,10 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                                         ),
                                         elevation: 10,
                                         shadowColor: Colors.black26,
-                                        backgroundColor:
-                                            const Color(0xFF004D99),
+                                        backgroundColor: isDarkMode
+                                            ? const Color.fromARGB(
+                                                255, 24, 24, 24)
+                                            : const Color(0xFF004D99),
                                       ),
                                       child: const Text(
                                         'Submit',
@@ -317,13 +334,24 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
         ? 'Latest Score: ${NumberMemoryScreen.results.last}'
         : 'No previous results';
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+      decoration: BoxDecoration(
+        gradient: isDarkMode
+            ? const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 3, 3, 3),
+                  Color.fromARGB(255, 20, 20, 20)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : const LinearGradient(
+                colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
       ),
       child: Center(
         child: Padding(
@@ -365,7 +393,9 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16.0),
-                  backgroundColor: const Color(0xFF004D99),
+                  backgroundColor: isDarkMode
+                      ? const Color.fromARGB(255, 24, 24, 24)
+                      : const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),

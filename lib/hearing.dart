@@ -174,13 +174,24 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
         ? 'Latest Frequency Heard: ${(HearingTestScreen.results.last).toStringAsFixed(1)} KHz'
         : 'No previous results';
 
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+      decoration: BoxDecoration(
+        gradient: isDarkMode
+            ? const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 3, 3, 3),
+                  Color.fromARGB(255, 20, 20, 20)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : const LinearGradient(
+                colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
       ),
       child: Center(
         child: Padding(
@@ -222,7 +233,9 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 32.0, vertical: 16.0),
-                  backgroundColor: const Color(0xFF004D99),
+                  backgroundColor: isDarkMode
+                      ? const Color.fromARGB(255, 24, 24, 24)
+                      : const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -246,6 +259,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
   }
 
   Widget _buildTestUI() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -253,10 +268,10 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Text(
             _message,
-            style: const TextStyle(
+            style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                color: Color.fromARGB(255, 0, 0, 0)),
+                color: isDarkMode ? Colors.white : Colors.black),
             textAlign: TextAlign.center,
           ),
         ),
