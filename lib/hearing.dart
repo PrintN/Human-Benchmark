@@ -159,7 +159,7 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Hearing',
+        title: const Text('Hearing Test',
             style: TextStyle(
                 fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),

@@ -304,7 +304,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildGridButton(
           context,
-          'Chimp',
+          'Chimp Test',
           Icons.pets,
           const ChimpScreen(),
         ),
@@ -316,7 +316,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildGridButton(
           context,
-          'Hearing',
+          'Hearing Test',
           Icons.hearing,
           const HearingTestScreen(),
         ),
@@ -378,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildListButton(
           context,
-          'Chimp',
+          'Chimp Test',
           Icons.pets,
           const ChimpScreen(),
         ),
@@ -390,7 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         _buildListButton(
           context,
-          'Hearing',
+          'Hearing Test',
           Icons.hearing,
           const HearingTestScreen(),
         ),

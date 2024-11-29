@@ -151,7 +151,7 @@ class _ChimpScreenState extends State<ChimpScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Chimp',
+        title: const Text('Chimp Test',
             style: TextStyle(
                 fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
