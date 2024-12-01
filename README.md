@@ -8,7 +8,7 @@
 
 <p>Human Benchmark is a mobile application designed to test and improve your cognitive abilities through a series of fun and challenging tests. The app offers various tests, including verbal memory, reaction time, pattern recognition, aim training, and typing tests, each designed to measure different aspects of your mental capabilities.</p>
 
-<a href="https://f-droid.org/packages/io.github.printn.humanbenchmark"><img src="https://f-droid.org/badge/get-it-on.png" width="20%"></a>
+<a href="https://f-droid.org/packages/io.github.printn.humanbenchmark"><img src="https://f-droid.org/badge/get-it-on.png" width="200"></a>
 </div>
 
 <div align="center">
