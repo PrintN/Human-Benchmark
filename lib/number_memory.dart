@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 import 'dart:math';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -32,8 +33,7 @@ class NumberMemoryScreen extends StatefulWidget {
   _NumberMemoryScreenState createState() => _NumberMemoryScreenState();
 }
 
-class _NumberMemoryScreenState extends State<NumberMemoryScreen>
-    with SingleTickerProviderStateMixin {
+class _NumberMemoryScreenState extends State<NumberMemoryScreen> {
   bool _gameStarted = false;
   bool _gameEnded = false;
   int _score = 0;
@@ -43,36 +43,18 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
   bool _showingNumbers = true;
   int _displayTime = 1;
 
-  late AnimationController _controller;
-  late Animation<double> _animation;
+  double _progress = 1.0; // Tracks the progress of the timer
+  Timer? _progressTimer; // Timer for progress updates
 
   @override
   void initState() {
     super.initState();
     NumberMemoryScreen.loadResults();
-
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: _displayTime),
-    );
-
-    _animation = Tween<double>(begin: 1.0, end: 0.0).animate(_controller)
-      ..addListener(() {
-        setState(() {});
-      });
-
-    _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() {
-          _showingNumbers = false;
-        });
-      }
-    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
+    _progressTimer?.cancel(); // Clean up the timer
     super.dispose();
   }
 
@@ -95,6 +77,8 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
       _gameEnded = true;
     });
 
+    _progressTimer?.cancel(); // Cancel the timer when the game ends
+
     NumberMemoryScreen.results.add(_score);
     NumberMemoryScreen.saveResults();
   }
@@ -103,24 +87,41 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
     final random = Random();
     final digits = List.generate(_numberCount, (index) => random.nextInt(10));
     _sequence = digits.join('');
-    print('Generated sequence: $_sequence');
+    debugPrint('Generated sequence: $_sequence');
+  }
+
+  void _startProgressTimer() {
+    _progressTimer?.cancel(); // Cancel any existing timer
+    _progress = 1.0; // Reset progress
+    final duration = Duration(seconds: _displayTime);
+    const interval = Duration(milliseconds: 50);
+
+    _progressTimer = Timer.periodic(interval, (timer) {
+      final elapsed = timer.tick * interval.inMilliseconds;
+      final progressPercent = 1.0 - (elapsed / duration.inMilliseconds);
+
+      if (progressPercent <= 0.0) {
+        setState(() {
+          _progress = 0.0;
+        });
+        timer.cancel();
+        setState(() {
+          _showingNumbers = false;
+        });
+      } else {
+        setState(() {
+          _progress = progressPercent;
+        });
+      }
+    });
   }
 
   void _showSequence() {
     setState(() {
       _showingNumbers = true;
-      _controller.duration = Duration(seconds: _displayTime);
-      _controller.reset();
-      _controller.forward();
     });
 
-    Future.delayed(Duration(seconds: _displayTime), () {
-      if (mounted) {
-        setState(() {
-          _showingNumbers = false;
-        });
-      }
-    });
+    _startProgressTimer();
   }
 
   void _onSubmit() {
@@ -137,6 +138,109 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
       _userInput = '';
       _showSequence();
     });
+  }
+
+  Widget _buildTimerBar() {
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 20),
+      height: 20,
+      width: 300,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.grey[300],
+      ),
+      child: Stack(
+        children: [
+          Container(
+            width: 300 * _progress,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStartScreen(BuildContext context) {
+    final lastScore = NumberMemoryScreen.results.isNotEmpty
+        ? 'Latest Score: ${NumberMemoryScreen.results.last}'
+        : 'No previous results';
+
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: isDarkMode
+            ? const LinearGradient(
+                colors: [
+                  Color.fromARGB(255, 3, 3, 3),
+                  Color.fromARGB(255, 20, 20, 20)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              )
+            : const LinearGradient(
+                colors: [Color(0xFF004D99), Color(0xFF0073E6)],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+      ),
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                'Welcome to the Number Memory Game!',
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                'You will briefly see a sequence of numbers. Your task is to remember and enter the sequence correctly. The length will increase with each round. Good luck!',
+                style: TextStyle(fontSize: 18, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 50),
+              Text(
+                lastScore,
+                style: const TextStyle(fontSize: 22, color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: _startGame,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 32.0, vertical: 16.0),
+                  backgroundColor: isDarkMode
+                      ? const Color.fromARGB(255, 24, 24, 24)
+                      : const Color(0xFF004D99),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                ),
+                child: const Text(
+                  'Start Game',
+                  style: TextStyle(
+                    fontSize: 24,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -285,160 +389,11 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen>
                                 ),
                         ],
                       ),
-                    if (_gameEnded)
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Text(
-                            'Game Over!',
-                            style: TextStyle(
-                              fontSize: 36,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 10.0,
-                                  color: Colors.black26,
-                                  offset: Offset(3.0, 3.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Text(
-                            'Your Score: $_score',
-                            style: const TextStyle(
-                              fontSize: 28,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 10.0,
-                                  color: Colors.black26,
-                                  offset: Offset(3.0, 3.0),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
                   ],
                 ),
               ),
             )
           : _buildStartScreen(context),
-    );
-  }
-
-  Widget _buildStartScreen(BuildContext context) {
-    final lastScore = NumberMemoryScreen.results.isNotEmpty
-        ? 'Latest Score: ${NumberMemoryScreen.results.last}'
-        : 'No previous results';
-
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: isDarkMode
-            ? const LinearGradient(
-                colors: [
-                  Color.fromARGB(255, 3, 3, 3),
-                  Color.fromARGB(255, 20, 20, 20)
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              )
-            : const LinearGradient(
-                colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-      ),
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text(
-                'Welcome to the Number Memory Game!',
-                style: TextStyle(
-                  fontSize: 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  shadows: [
-                    Shadow(
-                      blurRadius: 10.0,
-                      color: Colors.black26,
-                      offset: Offset(3.0, 3.0),
-                    ),
-                  ],
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 30),
-              const Text(
-                'You will briefly see a sequence of numbers. Your task is to remember and enter the sequence correctly. The length will increase with each round. Good luck!',
-                style: TextStyle(fontSize: 18, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 50),
-              Text(
-                lastScore,
-                style: const TextStyle(fontSize: 22, color: Colors.white),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 40),
-              ElevatedButton(
-                onPressed: _startGame,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 32.0, vertical: 16.0),
-                  backgroundColor: isDarkMode
-                      ? const Color.fromARGB(255, 24, 24, 24)
-                      : const Color(0xFF004D99),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  elevation: 10,
-                  shadowColor: Colors.black26,
-                ),
-                child: const Text(
-                  'Start Game',
-                  style: TextStyle(
-                    fontSize: 24,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTimerBar() {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 20),
-      height: 20,
-      width: 300,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: Colors.grey[300],
-      ),
-      child: Stack(
-        children: [
-          AnimatedContainer(
-            duration: const Duration(milliseconds: 100),
-            width: 300 * _animation.value,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
