@@ -128,6 +128,8 @@ class _TypingScreenState extends State<TypingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Typing Speed',
@@ -160,9 +162,18 @@ class _TypingScreenState extends State<TypingScreen> {
                                     _checkCompletion(value);
                                   });
                                 },
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   border: OutlineInputBorder(),
                                   hintText: 'Start typing here...',
+                                  hintStyle: TextStyle(
+                                    color: isDarkMode
+                                        ? Colors.white
+                                        : Colors.black,
+                                  ),
+                                ),
+                                style: TextStyle(
+                                  color:
+                                      isDarkMode ? Colors.white : Colors.black,
                                 ),
                                 keyboardType: TextInputType.multiline,
                                 maxLines: null,
