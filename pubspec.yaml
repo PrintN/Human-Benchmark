@@ -16,7 +16,7 @@ dependencies:
   provider: ^6.1.0
   share_plus: ^10.0.2
   just_audio: ^0.9.37
-
+  flutter_tts: ^3.2.2
   path_provider: any
 dev_dependencies:
   flutter_test:
@@ -110,14 +110,11 @@ flutter:
     - assets/iq/9/9-3.webp
     - assets/iq/9/9-4.webp
     - assets/iq/9/9-5.webp
-    - assets/iq/9/9-6.webp
     - assets/iq/10/test10.webp
     - assets/iq/10/10-1.webp
     - assets/iq/10/10-2.webp
     - assets/iq/10/10-3.webp
     - assets/iq/10/10-4.webp
-    - assets/iq/10/10-5.webp
-    - assets/iq/10/10-6.webp
     - assets/iq/11/test11.webp
     - assets/iq/11/11-1.webp
     - assets/iq/11/11-2.webp
@@ -194,7 +191,6 @@ flutter:
     - assets/iq/21/21-3.webp
     - assets/iq/21/21-4.webp
     - assets/iq/21/21-5.webp
-    - assets/iq/21/21-6.webp
     - assets/iq/22/test22.webp
     - assets/iq/22/22-1.webp
     - assets/iq/22/22-2.webp

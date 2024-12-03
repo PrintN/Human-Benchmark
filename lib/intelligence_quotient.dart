@@ -64,7 +64,10 @@ class _IntelligenceQuotientScreenState
     for (int i = 1; i <= 30; i++) {
       List<String> options = [];
       for (int j = 1; j <= 6; j++) {
-        options.add('assets/iq/$i/$i-$j.webp');
+        final optionPath = 'assets/iq/$i/$i-$j.webp';
+        if (await _assetExists(optionPath)) {
+          options.add(optionPath);
+        }
       }
       questionsList.add({
         'question': 'assets/iq/$i/test$i.webp',
@@ -77,6 +80,15 @@ class _IntelligenceQuotientScreenState
       questions = questionsList;
       answers = jsonData.cast<String, int>();
     });
+  }
+
+  Future<bool> _assetExists(String assetPath) async {
+    try {
+      await rootBundle.load(assetPath);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   void _startTest() {
@@ -340,7 +352,8 @@ class _IntelligenceQuotientScreenState
             Wrap(
               spacing: 10,
               runSpacing: 10,
-              children: List.generate(6, (index) {
+              children: List.generate(
+                  questions[currentQuestionIndex]['options'].length, (index) {
                 return GestureDetector(
                   onTap: () => _submitAnswer(index + 1),
                   child: Container(
