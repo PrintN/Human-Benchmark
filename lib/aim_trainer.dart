@@ -252,7 +252,9 @@ class _AimTrainerScreenState extends State<AimTrainerScreen> {
                 height: _targetSize,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.blue,
+                  color: isDarkMode
+                      ? Color.fromARGB(255, 83, 83, 83)
+                      : Colors.blue,
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.5),

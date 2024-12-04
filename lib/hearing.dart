@@ -284,7 +284,9 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 24.0, vertical: 12.0),
-                  backgroundColor: const Color(0xFF004D99),
+                  backgroundColor: isDarkMode
+                      ? Color.fromARGB(255, 24, 24, 24)
+                      : const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -302,7 +304,9 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 24.0, vertical: 12.0),
-                  backgroundColor: const Color.fromARGB(255, 255, 38, 38),
+                  backgroundColor: isDarkMode
+                      ? Color.fromARGB(255, 24, 24, 24)
+                      : const Color.fromARGB(255, 207, 13, 13),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
