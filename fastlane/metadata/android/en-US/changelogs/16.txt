@@ -1,0 +1,5 @@
+Change(s):
+- Added new test: Dual N-Back
+- Fixed dark mode colors
+- Fixed number memory bug
+- Added harder questions for IQ test
