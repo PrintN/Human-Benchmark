@@ -15,6 +15,7 @@ import 'visual_memory.dart';
 import 'aim_trainer.dart';
 import 'info_retention.dart';
 import 'intelligence_quotient.dart';
+import 'dual_n-back.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -356,6 +357,12 @@ class _HomeScreenState extends State<HomeScreen> {
           Icons.lightbulb,
           const IntelligenceQuotientScreen(),
         ),
+        _buildGridButton(
+          context,
+          'Dual N-Back',
+          Icons.tab,
+          const DualNBackTestScreen(),
+        ),
       ],
     );
   }
@@ -429,6 +436,12 @@ class _HomeScreenState extends State<HomeScreen> {
           'Intelligence Quotient',
           Icons.lightbulb,
           const IntelligenceQuotientScreen(),
+        ),
+        _buildListButton(
+          context,
+          'Dual N-Back',
+          Icons.tab,
+          const DualNBackTestScreen(),
         ),
       ],
     );

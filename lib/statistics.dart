@@ -21,6 +21,7 @@ import 'visual_memory.dart';
 import 'aim_trainer.dart';
 import 'info_retention.dart';
 import 'intelligence_quotient.dart';
+import 'dual_n-back.dart';
 
 class StatisticsScreen extends StatefulWidget {
   const StatisticsScreen({super.key});
@@ -50,6 +51,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     await AimTrainerScreen.loadResults();
     await InfoRetentionScreen.loadResults();
     await IntelligenceQuotientScreen.loadResults();
+    await DualNBackTestScreen.loadResults();
     setState(() {});
   }
 
@@ -259,6 +261,21 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           0,
           100
         ];
+        final List<int> dualNBackValues = [
+          40,
+          45,
+          40,
+          30,
+          15,
+          7,
+          2,
+          1,
+          0,
+          0,
+          0,
+          0,
+          100
+        ];
 
         final List<double> reactionTimeDistribution =
             _generateCustomDistribution(reactionTimeValues);
@@ -282,6 +299,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
             _generateCustomDistribution(infoRetentionValues);
         final List<double> intelligenceQuotientDistribution =
             _generateCustomDistribution(intelligenceQuotientValues);
+        final List<double> dualNBackDistribution =
+            _generateCustomDistribution(dualNBackValues);
 
         final List<double> reactionTimeResults = ReactionTimeScreen.results;
         final List<double> typingSpeedResults = TypingScreen.results;
@@ -296,6 +315,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
         final List<double> infoRetentionResults = InfoRetentionScreen.results;
         final List<int> intelligenceQuotientResults =
             IntelligenceQuotientScreen.results;
+        final List<int> dualNBackResults = DualNBackTestScreen.results;
 
         final List<double> latestReactionTimeResults =
             _getLatestResults(reactionTimeResults);
@@ -358,6 +378,11 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 ? intelligenceQuotientResults.reduce((a, b) => a + b) /
                     intelligenceQuotientResults.length.toDouble()
                 : 0;
+
+        final double dualNBackAverage = dualNBackResults.isNotEmpty
+            ? dualNBackResults.reduce((a, b) => a + b) /
+                dualNBackResults.length.toDouble()
+            : 0;
 
         final List<String> typingSpeedLabels = [
           '10',
@@ -517,6 +542,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           '200',
           ' '
         ];
+        final List<String> dualNBackLabels = [
+          '1',
+          '2',
+          '3',
+          '4',
+          '5',
+          '6',
+          '7',
+          '8',
+          '9',
+          '10',
+          ' '
+        ];
 
         return Scaffold(
           appBar: AppBar(
@@ -557,6 +595,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         infoRetentionAverage: infoRetentionAverage,
                         intelligenceQuotientAverage:
                             intelligenceQuotientAverage,
+                        dualNBackAverage: dualNBackAverage,
                       );
                       break;
                     case 'delete':
@@ -750,10 +789,10 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         'Number Memory',
                         numberMemoryDistribution,
                         numberMemoryLabels,
-                        'Score',
+                        'score',
                         numberMemoryAverage),
                     _buildStatisticSection('Chimp Test', chimpTestDistribution,
-                        chimpTestLabels, 'Score', chimpTestAverage),
+                        chimpTestLabels, 'score', chimpTestAverage),
                     _buildStatisticSection(
                         'Hearing Test',
                         hearingTestDistribution,
@@ -764,19 +803,19 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         'Verbal Memory',
                         verbalMemoryDistribution,
                         verbalMemoryLabels,
-                        'Score',
+                        'score',
                         verbalMemoryAverage),
                     _buildStatisticSection(
                         'Sequence Memory',
                         sequenceMemoryDistribution,
                         sequenceMemoryLabels,
-                        'Score',
+                        'score',
                         sequenceMemoryAverage),
                     _buildStatisticSection(
                         'Visual Memory',
                         visualMemoryDistribution,
                         visualMemoryLabels,
-                        'Level',
+                        'level',
                         visualMemoryAverage),
                     _buildStatisticSection(
                         'Aim Trainer',
@@ -796,6 +835,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                         intelligenceQuotientLabels,
                         'IQ',
                         intelligenceQuotientAverage),
+                    _buildStatisticSection('Dual N-Back', dualNBackDistribution,
+                        dualNBackLabels, 'level', dualNBackAverage),
                   ],
                 ),
               ),
@@ -985,6 +1026,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
                 await AimTrainerScreen.clearResults();
                 await InfoRetentionScreen.clearResults();
                 await IntelligenceQuotientScreen.clearResults();
+                await DualNBackTestScreen.clearResults();
                 setState(() {});
                 Navigator.of(context).pop();
               },
@@ -1007,6 +1049,7 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
     required double aimTrainerAverage,
     required double infoRetentionAverage,
     required double intelligenceQuotientAverage,
+    required double dualNBackAverage,
   }) async {
     final ui.PictureRecorder recorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(
@@ -1041,7 +1084,8 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
           'Visual Memory: ${visualMemoryAverage.toStringAsFixed(0)} score\n'
           'Aim Trainer: ${aimTrainerAverage.toStringAsFixed(0)} ms\n'
           'Info Retention: ${infoRetentionAverage.toStringAsFixed(0)} correct\n'
-          'Intelligence Quotient: ${intelligenceQuotientAverage.toStringAsFixed(0)} IQ',
+          'Intelligence Quotient: ${intelligenceQuotientAverage.toStringAsFixed(0)} IQ\n'
+          'Dual N-Back: ${dualNBackAverage.toStringAsFixed(0)} level',
       style: const TextStyle(
         color: Colors.black,
         fontSize: 24,
