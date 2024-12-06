@@ -208,7 +208,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
 
   Widget _buildStartScreen() {
     final lastScore = VisualMemoryTestScreen.results.isNotEmpty
-        ? 'Latest Score: ${VisualMemoryTestScreen.results.last.toStringAsFixed(0)}'
+        ? 'Latest Level: ${VisualMemoryTestScreen.results.last.toStringAsFixed(0)}'
         : 'No previous results';
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
