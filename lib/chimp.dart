@@ -44,6 +44,8 @@ class _ChimpScreenState extends State<ChimpScreen> {
   final Random _random = Random();
   final List<Offset> _positions = [];
 
+  double _boxSize = 100.0;
+
   @override
   void initState() {
     super.initState();
@@ -57,11 +59,11 @@ class _ChimpScreenState extends State<ChimpScreen> {
       _score = 0;
       _numberCount = 4;
       _expectedNumber = 1;
+      _showingNumbers = true;
     });
 
     _generateSequence();
     _generateNonOverlappingPositions();
-    _showSequence();
   }
 
   void _endTest() {
@@ -70,7 +72,7 @@ class _ChimpScreenState extends State<ChimpScreen> {
       _testEnded = true;
     });
 
-    ChimpScreen.results.add(_score);
+    ChimpScreen.results.insert(0, _score);
     ChimpScreen.saveResults();
   }
 
@@ -83,8 +85,11 @@ class _ChimpScreenState extends State<ChimpScreen> {
   void _generateNonOverlappingPositions() {
     _positions.clear();
     final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-    const double boxSize = 100.0;
+    final double screenHeight = MediaQuery.of(context).size.height - 150;
+
+    const double minBoxSize = 50.0;
+    const double maxBoxSize = 100.0;
+    _boxSize = max(minBoxSize, maxBoxSize - (_numberCount * 2));
 
     for (int i = 0; i < _numberCount; i++) {
       Offset newPosition;
@@ -92,12 +97,12 @@ class _ChimpScreenState extends State<ChimpScreen> {
 
       do {
         hasOverlap = false;
-        double x = _random.nextDouble() * (screenWidth - boxSize);
-        double y = _random.nextDouble() * (screenHeight - boxSize - 150);
+        double x = _random.nextDouble() * (screenWidth - _boxSize);
+        double y = _random.nextDouble() * (screenHeight - _boxSize);
         newPosition = Offset(x, y);
 
         for (final position in _positions) {
-          if ((newPosition - position).distance < boxSize + 10) {
+          if ((newPosition - position).distance < _boxSize + 10) {
             hasOverlap = true;
             break;
           }
@@ -106,12 +111,6 @@ class _ChimpScreenState extends State<ChimpScreen> {
 
       _positions.add(newPosition);
     }
-  }
-
-  void _showSequence() {
-    setState(() {
-      _showingNumbers = true;
-    });
   }
 
   void _onNumberTap(int number) {
@@ -127,17 +126,16 @@ class _ChimpScreenState extends State<ChimpScreen> {
         int index = _sequence.indexOf(number);
         _sequence.removeAt(index);
         _positions.removeAt(index);
+        if (_score == 0) {
+          _score = _numberCount - 1;
+        }
         if (_expectedNumber > _numberCount) {
-          if (_score == 0) {
-            _score = _numberCount;
-          } else {
-            _score++;
-          }
+          _score++;
           _numberCount++;
           _generateSequence();
           _generateNonOverlappingPositions();
           _expectedNumber = 1;
-          _showSequence();
+          _showingNumbers = true;
         }
       });
     } else {
@@ -184,8 +182,8 @@ class _ChimpScreenState extends State<ChimpScreen> {
                               ),
                             ],
                           ),
-                          height: 100,
-                          width: 100,
+                          height: _boxSize,
+                          width: _boxSize,
                           child: Center(
                             child: Text(
                               _showingNumbers ? '${_sequence[index]}' : '?',
@@ -224,7 +222,7 @@ class _ChimpScreenState extends State<ChimpScreen> {
 
   Widget _buildStartScreen(BuildContext context) {
     final lastScore = ChimpScreen.results.isNotEmpty
-        ? 'Latest Score: ${ChimpScreen.results.last}'
+        ? 'Latest Score: ${ChimpScreen.results.first}'
         : 'No previous results';
 
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
