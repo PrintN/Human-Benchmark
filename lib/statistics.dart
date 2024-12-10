@@ -998,11 +998,16 @@ class _StatisticsScreenState extends State<StatisticsScreen> {
   }
 
   void _showDeleteConfirmationDialog(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     showDialog<void>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Delete All Results'),
+          title: Text(
+            'Delete All Results',
+            style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+          ),
           content: const Text(
               'Are you sure you want to delete all results? This action cannot be undone.'),
           actions: <Widget>[
