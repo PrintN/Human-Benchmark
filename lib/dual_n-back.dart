@@ -35,7 +35,25 @@ class DualNBackTestScreen extends StatefulWidget {
 
 class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
   final FlutterTts _tts = FlutterTts();
-  final List<String> _letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'];
+  final List<String> _letters = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'F',
+    'G',
+    'H',
+    'J',
+    'K',
+    'M',
+    'P',
+    'R',
+    'S',
+    'T',
+    'U',
+    'W',
+    'Y'
+  ];
   final List<Offset> _positions = [
     Offset(0.0, 0.0),
     Offset(1.0, 0.0),
