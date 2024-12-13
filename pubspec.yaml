@@ -68,7 +68,6 @@ flutter:
     - assets/iq/3/3-3.webp
     - assets/iq/3/3-4.webp
     - assets/iq/3/3-5.webp
-    - assets/iq/3/3-6.webp
     - assets/iq/4/test4.webp
     - assets/iq/4/4-1.webp
     - assets/iq/4/4-2.webp
@@ -82,7 +81,6 @@ flutter:
     - assets/iq/5/5-3.webp
     - assets/iq/5/5-4.webp
     - assets/iq/5/5-5.webp
-    - assets/iq/5/5-6.webp
     - assets/iq/6/test6.webp
     - assets/iq/6/6-1.webp
     - assets/iq/6/6-2.webp
@@ -96,14 +94,12 @@ flutter:
     - assets/iq/7/7-3.webp
     - assets/iq/7/7-4.webp
     - assets/iq/7/7-5.webp
-    - assets/iq/7/7-6.webp
     - assets/iq/8/test8.webp
     - assets/iq/8/8-1.webp
     - assets/iq/8/8-2.webp
     - assets/iq/8/8-3.webp
     - assets/iq/8/8-4.webp
     - assets/iq/8/8-5.webp
-    - assets/iq/8/8-6.webp
     - assets/iq/9/test9.webp
     - assets/iq/9/9-1.webp
     - assets/iq/9/9-2.webp
@@ -121,28 +117,22 @@ flutter:
     - assets/iq/11/11-3.webp
     - assets/iq/11/11-4.webp
     - assets/iq/11/11-5.webp
-    - assets/iq/11/11-6.webp
     - assets/iq/12/test12.webp
     - assets/iq/12/12-1.webp
     - assets/iq/12/12-2.webp
     - assets/iq/12/12-3.webp
     - assets/iq/12/12-4.webp
-    - assets/iq/12/12-5.webp
-    - assets/iq/12/12-6.webp
     - assets/iq/13/test13.webp
     - assets/iq/13/13-1.webp
     - assets/iq/13/13-2.webp
     - assets/iq/13/13-3.webp
     - assets/iq/13/13-4.webp
-    - assets/iq/13/13-5.webp
-    - assets/iq/13/13-6.webp
     - assets/iq/14/test14.webp
     - assets/iq/14/14-1.webp
     - assets/iq/14/14-2.webp
     - assets/iq/14/14-3.webp
     - assets/iq/14/14-4.webp
     - assets/iq/14/14-5.webp
-    - assets/iq/14/14-6.webp
     - assets/iq/15/test15.webp
     - assets/iq/15/15-1.webp
     - assets/iq/15/15-2.webp
@@ -156,7 +146,6 @@ flutter:
     - assets/iq/16/16-3.webp
     - assets/iq/16/16-4.webp
     - assets/iq/16/16-5.webp
-    - assets/iq/16/16-6.webp
     - assets/iq/17/test17.webp
     - assets/iq/17/17-1.webp
     - assets/iq/17/17-2.webp
@@ -196,8 +185,6 @@ flutter:
     - assets/iq/22/22-2.webp
     - assets/iq/22/22-3.webp
     - assets/iq/22/22-4.webp
-    - assets/iq/22/22-5.webp
-    - assets/iq/22/22-6.webp
     - assets/iq/23/test23.webp
     - assets/iq/23/23-1.webp
     - assets/iq/23/23-2.webp
@@ -253,7 +240,6 @@ flutter:
     - assets/iq/30/30-3.webp
     - assets/iq/30/30-4.webp
     - assets/iq/30/30-5.webp
-    - assets/iq/30/30-6.webp
 
 flutter_icons:
   android: true
