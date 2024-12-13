@@ -2,7 +2,7 @@ name: humanbenchmark
 description: "An app to test your abilities."
 publish_to: 'none'
 
-version: 1.0.6+16
+version: 1.0.7+17
 
 environment:
   sdk: ^3.5.0

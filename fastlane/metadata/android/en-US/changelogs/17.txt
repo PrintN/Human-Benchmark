@@ -1,0 +1,5 @@
+Change(s):
+- IQ Test: Questions updated.
+- Chimp Test: Bug fixed.
+- Statistics dark mode: Colors fixed.
+- Dual N-Back Test: Different sounding characters added.
