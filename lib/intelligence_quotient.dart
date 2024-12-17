@@ -237,7 +237,7 @@ class _IntelligenceQuotientScreenState
                 ),
                 const SizedBox(height: 20),
                 const Text(
-                  'This test evaluates your cognitive abilities with 30 pattern-based questions. You have 20 minutes to complete the test.',
+                  'This test evaluates your cognitive abilities with 30 pattern-based questions. You have 20 minutes to complete the test. This is not an official IQ test.',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
