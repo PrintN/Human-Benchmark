@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // For Clipboard functionality
 import 'statistics.dart';
 import 'package:provider/provider.dart';
 import 'main.dart';
 
 class FAQScreen extends StatelessWidget {
   const FAQScreen({super.key});
+
+  // Function to copy the URL to the clipboard
+  Future<void> _copyToClipboard(BuildContext context, String url) async {
+    await Clipboard.setData(ClipboardData(text: url));
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Link copied to clipboard!'),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +129,7 @@ class FAQScreen extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: ListView(
-            children: const [
+            children: [
               ExpansionTile(
                 title: Text(
                   'What is Human Benchmark?',
@@ -157,9 +168,30 @@ class FAQScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'Yes, you can find the source code of Human Benchmark on GitHub.',
-                      style: TextStyle(fontSize: 16.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _copyToClipboard(context,
+                            'https://github.com/PrintN/Human-Benchmark');
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Yes, you can find the source code here: ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  'https://github.com/PrintN/Human-Benchmark/',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -187,9 +219,33 @@ class FAQScreen extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Text(
-                      'If you have encountered an issue, please open a new issue in the Human Benchmark GitHub repository.',
-                      style: TextStyle(fontSize: 16.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        _copyToClipboard(
+                          context,
+                          'https://github.com/PrintN/Human-Benchmark/issues',
+                        );
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text:
+                              'If you have encountered an issue, please open a new issue here: ',
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            color: isDarkMode ? Colors.white : Colors.black,
+                          ),
+                          children: [
+                            TextSpan(
+                              text:
+                                  'https://github.com/PrintN/Human-Benchmark/issues',
+                              style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
