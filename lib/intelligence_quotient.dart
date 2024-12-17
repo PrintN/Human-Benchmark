@@ -46,6 +46,7 @@ class _IntelligenceQuotientScreenState
   int _timeLeft = 1200;
   int score = 0;
   Map<int, int> selectedAnswers = {};
+  bool _isFinishButtonVisible = false;
 
   @override
   void initState() {
@@ -103,6 +104,9 @@ class _IntelligenceQuotientScreenState
       if (currentQuestionIndex < questions.length - 1) {
         currentQuestionIndex++;
       }
+      if (currentQuestionIndex == 29) {
+        _isFinishButtonVisible = true;
+      }
     });
   }
 
@@ -110,6 +114,9 @@ class _IntelligenceQuotientScreenState
     setState(() {
       if (currentQuestionIndex > 0) {
         currentQuestionIndex--;
+      }
+      if (currentQuestionIndex < 29) {
+        _isFinishButtonVisible = false;
       }
     });
   }
@@ -329,107 +336,160 @@ class _IntelligenceQuotientScreenState
                 decoration: BoxDecoration(
                   color: isDarkMode ? Colors.white : Colors.transparent,
                   borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: const Offset(2, 2),
-                    ),
-                  ],
                 ),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.asset(
                     questions[currentQuestionIndex]['question'] as String,
                     fit: BoxFit.cover,
-                    height: 200,
+                    height: 250,
                   ),
                 ),
               ),
+            ),
+            const SizedBox(height: 20),
+            Divider(
+              color: isDarkMode ? Colors.white54 : Colors.black54,
+              thickness: 1.5,
+              indent: 0,
+              endIndent: 0,
             ),
             const SizedBox(height: 20),
             Wrap(
               spacing: 10,
               runSpacing: 10,
               children: List.generate(
-                  questions[currentQuestionIndex]['options'].length, (index) {
-                return GestureDetector(
-                  onTap: () => _submitAnswer(index + 1),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3 - 20,
-                    decoration: BoxDecoration(
-                      color: isDarkMode ? Colors.white : Colors.transparent,
-                      border: Border.all(
-                        color: _isAnswerSelected(index + 1)
-                            ? isDarkMode
-                                ? const Color.fromARGB(255, 131, 131, 131)
-                                : Colors.blueAccent
-                            : Colors.transparent,
-                        width: 3,
-                      ),
-                      borderRadius: BorderRadius.circular(10),
+                questions[currentQuestionIndex]['options'].length,
+                (index) {
+                  bool isSelected = _isAnswerSelected(index + 1);
+                  return GestureDetector(
+                    onTap: () => _submitAnswer(index + 1),
+                    child: Stack(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3 - 20,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            color:
+                                isDarkMode ? Colors.white : Colors.transparent,
+                            border: Border.all(
+                              color: isSelected
+                                  ? (isDarkMode
+                                      ? const Color.fromARGB(255, 131, 131, 131)
+                                      : Colors.blueAccent)
+                                  : Colors.transparent,
+                              width: 3,
+                            ),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.asset(
+                              questions[currentQuestionIndex]['options'][index]
+                                  as String,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        if (isSelected)
+                          Container(
+                            width: MediaQuery.of(context).size.width / 3 - 20,
+                            height: 120,
+                            decoration: BoxDecoration(
+                              color: isDarkMode
+                                  ? const Color.fromARGB(255, 119, 119, 119)
+                                      .withOpacity(0.5)
+                                  : Colors.blue.withOpacity(0.5),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                      ],
                     ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.asset(
-                        questions[currentQuestionIndex]['options'][index]
-                            as String,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                );
-              }),
+                  );
+                },
+              ),
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                ElevatedButton(
-                  onPressed: _previousQuestion,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDarkMode
-                        ? Color.fromARGB(255, 24, 24, 24)
-                        : Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                SizedBox(
+                  width: 120,
+                  child: ElevatedButton(
+                    onPressed: _previousQuestion,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isDarkMode
+                          ? Color.fromARGB(255, 24, 24, 24)
+                          : Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Previous',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    child: const Text(
+                      'Previous',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
-                ElevatedButton(
-                  onPressed: _nextQuestion,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: isDarkMode
-                        ? Color.fromARGB(255, 24, 24, 24)
-                        : Colors.blue,
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 12, horizontal: 24),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                SizedBox(
+                  width: 120,
+                  child: ElevatedButton(
+                    onPressed: _nextQuestion,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isDarkMode
+                          ? Color.fromARGB(255, 24, 24, 24)
+                          : Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'Next',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                    child: const Text(
+                      'Next',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ],
             ),
+            if (_isFinishButtonVisible)
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: ElevatedButton(
+                    onPressed: _finishTest,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: isDarkMode
+                          ? Color.fromARGB(255, 24, 24, 24)
+                          : Colors.blue,
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12, horizontal: 24),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                    child: const Text(
+                      'Finish Test',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
