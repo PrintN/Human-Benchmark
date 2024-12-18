@@ -1,0 +1,5 @@
+Change(s):
+- Copyable links on FAQ page
+- Updated Intelligence Quotient test
+- Added pop-up for Dual N-Back test (if device is not supporting TTS)
+- Updated Number Memory test start screen
