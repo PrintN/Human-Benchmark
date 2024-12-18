@@ -196,22 +196,22 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen> {
               const Text(
                 'Welcome to the Number Memory Game!',
                 style: TextStyle(
-                  fontSize: 36,
+                  fontSize: 30,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const Text(
                 'You will briefly see a sequence of numbers. Your task is to remember and enter the sequence correctly. The length will increase with each round. Good luck!',
                 style: TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 40),
               Text(
                 lastScore,
-                style: const TextStyle(fontSize: 22, color: Colors.white),
+                style: const TextStyle(fontSize: 18, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
@@ -230,7 +230,7 @@ class _NumberMemoryScreenState extends State<NumberMemoryScreen> {
                 child: const Text(
                   'Start Game',
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 22,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                   ),
