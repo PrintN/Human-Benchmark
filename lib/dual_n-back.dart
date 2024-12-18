@@ -98,6 +98,43 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
       _sequence = [];
     });
     _generateNextStep();
+    _checkTTS();
+  }
+
+  Future<void> _checkTTS() async {
+    final engines = await _tts.getEngines;
+    final languages = await _tts.getLanguages;
+
+    if (engines?.isEmpty ?? true) {
+      _showPopup("No TTS engine installed on this device.");
+    } else if (languages?.isEmpty ?? true) {
+      _showPopup("No TTS languages are available on this device.");
+    }
+  }
+
+  void _showPopup(String message) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(
+          "TTS Error",
+          style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
+        ),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              setState(() {
+                _isTestRunning = false;
+              });
+            },
+            child: const Text("Ok"),
+          ),
+        ],
+      ),
+    );
   }
 
   Future<void> _playAudio(String letter) async {
@@ -231,7 +268,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text(
-              'Dual N-Back Test',
+              'Welcome to the Dual N-Back Test!',
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
