@@ -342,7 +342,7 @@ class _IntelligenceQuotientScreenState
                   child: Image.asset(
                     questions[currentQuestionIndex]['question'] as String,
                     fit: BoxFit.cover,
-                    height: 250,
+                    height: MediaQuery.of(context).size.height * 0.3,
                   ),
                 ),
               ),
@@ -368,7 +368,7 @@ class _IntelligenceQuotientScreenState
                       children: [
                         Container(
                           width: MediaQuery.of(context).size.width / 3 - 20,
-                          height: 120,
+                          height: MediaQuery.of(context).size.height * 0.13,
                           decoration: BoxDecoration(
                             color:
                                 isDarkMode ? Colors.white : Colors.transparent,
@@ -394,7 +394,7 @@ class _IntelligenceQuotientScreenState
                         if (isSelected)
                           Container(
                             width: MediaQuery.of(context).size.width / 3 - 20,
-                            height: 120,
+                            height: MediaQuery.of(context).size.height * 0.13,
                             decoration: BoxDecoration(
                               color: isDarkMode
                                   ? const Color.fromARGB(255, 119, 119, 119)
@@ -440,7 +440,9 @@ class _IntelligenceQuotientScreenState
                 SizedBox(
                   width: 120,
                   child: ElevatedButton(
-                    onPressed: _nextQuestion,
+                    onPressed: currentQuestionIndex == questions.length - 1
+                        ? _finishTest
+                        : _nextQuestion,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: isDarkMode
                           ? Color.fromARGB(255, 24, 24, 24)
@@ -451,9 +453,11 @@ class _IntelligenceQuotientScreenState
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    child: const Text(
-                      'Next',
-                      style: TextStyle(
+                    child: Text(
+                      currentQuestionIndex == questions.length - 1
+                          ? 'Finish'
+                          : 'Next',
+                      style: const TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -463,33 +467,6 @@ class _IntelligenceQuotientScreenState
                 ),
               ],
             ),
-            if (_isFinishButtonVisible)
-              Center(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 20),
-                  child: ElevatedButton(
-                    onPressed: _finishTest,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: isDarkMode
-                          ? Color.fromARGB(255, 24, 24, 24)
-                          : Colors.blue,
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12, horizontal: 24),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: const Text(
-                      'Finish Test',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
           ],
         ),
       ),
