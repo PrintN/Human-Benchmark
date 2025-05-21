@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:math';
 
 class ReactionTimeScreen extends StatefulWidget {
   const ReactionTimeScreen({super.key});
@@ -67,10 +68,10 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
       _displayText = 'Wait for green';
     });
 
-    _timer = Timer(
-        Duration(
-            seconds: 2 +
-                5 * (DateTime.now().millisecondsSinceEpoch % 5) ~/ 1000), () {
+    final random = Random();
+    double secondsToWait = 2.0 + random.nextDouble() * 3.0;
+
+    _timer = Timer(Duration(milliseconds: (secondsToWait * 1000).round()), () {
       if (_waitingForGreen) {
         setState(() {
           _screenColor = Colors.green;
