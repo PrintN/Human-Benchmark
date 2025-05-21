@@ -1,0 +1,3 @@
+Change(s):
+- Enhanced the visibility of Chimp Test numbers by increasing their font size.
+- Added more variability in the waiting duration for the screen transition from red to green, in the Reaction Time Test.

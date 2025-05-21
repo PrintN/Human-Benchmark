@@ -191,7 +191,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
                   colors: isDarkMode
                       ? [
                           const Color.fromARGB(255, 255, 255, 255),
-                          const Color.fromARGB(255, 255, 255, 255)!
+                          const Color.fromARGB(255, 255, 255, 255)
                         ]
                       : [Colors.blueAccent, Colors.blue[600]!],
                   begin: Alignment.topLeft,

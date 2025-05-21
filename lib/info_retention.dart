@@ -6,7 +6,7 @@ import 'package:flutter/services.dart' show rootBundle;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class InfoRetentionScreen extends StatefulWidget {
-  const InfoRetentionScreen({Key? key}) : super(key: key);
+  const InfoRetentionScreen({super.key});
 
   static List<double> results = [];
 
@@ -43,8 +43,8 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
   List<dynamic> _questions = [];
   int _correctAnswers = 0;
   int _totalQuestions = 0;
-  Map<int, String> _selectedAnswers = {};
-  Map<int, bool> _answerStatus = {};
+  final Map<int, String> _selectedAnswers = {};
+  final Map<int, bool> _answerStatus = {};
   int _currentQuestionIndex = 0;
 
   @override
