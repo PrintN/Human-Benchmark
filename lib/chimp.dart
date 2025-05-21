@@ -189,7 +189,7 @@ class _ChimpScreenState extends State<ChimpScreen> {
                               _showingNumbers ? '${_sequence[index]}' : '?',
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 24,
+                                fontSize: 42,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
