@@ -41,6 +41,7 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
   Color _screenColor = Colors.blue;
   String _displayText = 'Click to start';
   Timer? _timer;
+  Set<int> _activePointers = <int>{};
 
   @override
   void initState() {
@@ -69,37 +70,62 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
     });
 
     final random = Random();
-    double secondsToWait = 2.0 + random.nextDouble() * 3.0;
+    double secondsToWait = 2.0 + random.nextDouble() * 5.0;
 
     _timer = Timer(Duration(milliseconds: (secondsToWait * 1000).round()), () {
       if (_waitingForGreen) {
-        setState(() {
-          _screenColor = Colors.green;
-          _stopwatch.start();
-          _displayText = 'Click!';
-        });
+        if (_activePointers.isNotEmpty) {
+          setState(() {
+            _tooSoon = true;
+            _screenColor = Colors.blue;
+            _waitingForGreen = false;
+            _displayText = 'Oops! You were holding down. Too soon!';
+          });
+
+          Future.delayed(const Duration(milliseconds: 1000), () {
+            setState(() {
+              _started = false;
+              _tooSoon = false;
+              _displayText = ReactionTimeScreen.results.isNotEmpty
+                  ? 'Last Reaction Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
+                  : 'No previous results';
+            });
+          });
+        } else {
+          setState(() {
+            _screenColor = Colors.green;
+            _waitingForGreen = false;
+            _stopwatch.start();
+            _displayText = 'Tap now!';
+          });
+        }
       }
     });
   }
 
-  void _handleTap() {
+  void _handlePointerDown(PointerDownEvent event) {
+    _activePointers.add(event.pointer);
+
     if (!_started) {
       return;
     }
 
-    if (_waitingForGreen && _screenColor == Colors.red) {
+    if (_waitingForGreen) {
+      _timer?.cancel();
       setState(() {
         _tooSoon = true;
         _screenColor = Colors.blue;
         _waitingForGreen = false;
-        _displayText = 'Oops! You clicked too soon.';
+        _displayText = 'Oops! You tapped too soon.';
       });
 
-      Future.delayed(const Duration(milliseconds: 500), () {
+      Future.delayed(const Duration(milliseconds: 1000), () {
         setState(() {
           _started = false;
           _tooSoon = false;
-          _displayText = 'Click to start';
+          _displayText = ReactionTimeScreen.results.isNotEmpty
+              ? 'Last Reaction Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
+              : 'No previous results';
         });
       });
     } else if (_screenColor == Colors.green) {
@@ -113,12 +139,19 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
         _started = false;
         _waitingForGreen = false;
         _screenColor = Colors.blue;
-        // Update display text with the new latest time
         _displayText = ReactionTimeScreen.results.isNotEmpty
-            ? 'Latest Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
+            ? 'Last Reaction Time: ${ReactionTimeScreen.results.first.toStringAsFixed(2)} ms'
             : 'No previous results';
       });
     }
+  }
+
+  void _handlePointerUp(PointerUpEvent event) {
+    _activePointers.remove(event.pointer);
+  }
+
+  void _handlePointerCancel(PointerCancelEvent event) {
+    _activePointers.remove(event.pointer);
   }
 
   @override
@@ -129,10 +162,12 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
             style: TextStyle(
                 fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
-      body: _started
-          ? GestureDetector(
-              onTap: _handleTap,
-              child: Container(
+      body: Listener(
+        onPointerDown: _handlePointerDown,
+        onPointerUp: _handlePointerUp,
+        onPointerCancel: _handlePointerCancel,
+        child: _started
+            ? Container(
                 color: _screenColor,
                 child: Center(
                   child: Text(
@@ -141,9 +176,9 @@ class _ReactionTimeScreenState extends State<ReactionTimeScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-              ),
-            )
-          : _buildStartScreen(context),
+              )
+            : _buildStartScreen(context),
+      ),
     );
   }
 
