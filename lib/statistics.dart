@@ -163,18 +163,20 @@ class _Legend extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    return Column(
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _LegendDot(color: Colors.red),
           SizedBox(width: 8),
-          Text('You', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('You', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black)),
         ]),
         SizedBox(height: 8),
         Row(mainAxisAlignment: MainAxisAlignment.center, children: [
           _LegendLine(),
           SizedBox(width: 8),
-          Text('World', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          Text('World', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black)),
         ]),
       ],
     );
@@ -216,13 +218,13 @@ class _StatSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(config.title, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(config.title, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
                   'Avg: ${config.average.toStringAsFixed(config.precision)} ${config.unit}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white70 : Colors.black87),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: isDark ? Colors.white : Colors.black),
                 ),
               ],
             ),
@@ -346,7 +348,7 @@ class StatChart extends StatelessWidget {
         dotData: FlDotData(
           show: true,
           getDotPainter: (_, __, ___, ____) => FlDotCirclePainter(
-            radius: 7,
+            radius: 4,
             color: Colors.red,
             strokeColor: Colors.redAccent,
             strokeWidth: 3,
@@ -503,7 +505,7 @@ final List<TestConfig> testConfigs = [
     unit: 'level',
     precision: 0,
     labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-    globalDistribution: [2, 20, 30, 50, 40, 20, 10, 7, 4, 2],
+    globalDistribution: [30, 50, 40, 30, 20, 10, 5, 4, 3, 2],
     loadResults: DualNBackTestScreen.loadResults,
     getResults: () => DualNBackTestScreen.results,
     clearResults: DualNBackTestScreen.clearResults,

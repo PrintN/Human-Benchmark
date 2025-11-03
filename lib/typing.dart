@@ -148,9 +148,9 @@ class _TypingScreenState extends State<TypingScreen> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const Text(
+                              Text(
                                 'Type the following text:',
-                                style: TextStyle(fontSize: 18),
+                                style: TextStyle(fontSize: 18, color: isDarkMode ? Colors.white : Colors.black),
                               ),
                               const SizedBox(height: 10),
                               _buildTextOverlay(),

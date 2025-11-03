@@ -295,9 +295,10 @@ class _VerbalMemoryTestScreenState extends State<VerbalMemoryTestScreen> {
         const SizedBox(height: 20),
         Text(
           "Words Shown: $_shownWordsCount",
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
+            color: isDarkMode ? Colors.white : Colors.black
           ),
         ),
         const SizedBox(height: 30),

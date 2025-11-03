@@ -37,76 +37,7 @@ class FAQScreen extends StatelessWidget {
               ),
             ),
           ),
-          drawer: Drawer(
-            child: Consumer<ThemeProvider>(
-              builder: (context, themeProvider, child) {
-                final bool isDarkMode = themeProvider.isDarkMode;
-
-                return Container(
-                  color: isDarkMode ? Colors.black : const Color(0xFFF5F5F5),
-                  child: ListView(
-                    padding: EdgeInsets.zero,
-                    children: [
-                      Container(
-                        height: 150,
-                        decoration: BoxDecoration(
-                          gradient: isDarkMode
-                              ? null
-                              : const LinearGradient(
-                                  colors: [Color(0xFF004D99), Color(0xFF0073E6)],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                          color: isDarkMode ? Colors.black : null,
-                        ),
-                        child: Center(
-                          child: Image.asset(
-                            'assets/human-benchmark-no-background.webp',
-                            width: 100,
-                            height: 100,
-                          ),
-                        ),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.home,
-                            color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
-                        title: const Text('Home'),
-                        onTap: () => Navigator.pushNamed(context, '/'),
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.bar_chart,
-                            color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
-                        title: const Text('Statistics'),
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) => const StatisticsScreen()),
-                          );
-                        },
-                      ),
-                      ListTile(
-                        leading: Icon(Icons.help,
-                            color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
-                        title: const Text('FAQ'),
-                        onTap: () => Navigator.pop(context),
-                      ),
-                      const Divider(),
-                      ListTile(
-                        leading: Icon(Icons.brightness_6,
-                            color: isDarkMode ? Colors.white : const Color(0xFF004D99)),
-                        title: const Text('Toggle Dark/Light Mode'),
-                        onTap: () {
-                          Provider.of<ThemeProvider>(context, listen: false)
-                              .toggleTheme();
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
+          drawer: const AppDrawer(),
           body: Padding(
             padding: const EdgeInsets.all(16.0),
             child: ListView(

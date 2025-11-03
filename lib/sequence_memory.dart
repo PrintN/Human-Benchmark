@@ -279,6 +279,8 @@ class _SequenceMemoryTestScreenState extends State<SequenceMemoryTestScreen> {
   }
 
   Widget _buildTestUI() {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -287,7 +289,7 @@ class _SequenceMemoryTestScreenState extends State<SequenceMemoryTestScreen> {
             padding: const EdgeInsets.symmetric(vertical: 20.0),
             child: Text(
               "Current Sequence Length: $_score",
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
             ),
           ),
           SizedBox(

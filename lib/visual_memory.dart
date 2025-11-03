@@ -4,12 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class VisualMemoryTestScreen extends StatefulWidget {
-  @override
-  _VisualMemoryTestScreenState createState() => _VisualMemoryTestScreenState();
+  const VisualMemoryTestScreen({super.key});
 
   static List<double> results = [];
-
-  const VisualMemoryTestScreen({super.key});
 
   static Future<void> loadResults() async {
     final prefs = await SharedPreferences.getInstance();
@@ -21,7 +18,7 @@ class VisualMemoryTestScreen extends StatefulWidget {
   static Future<void> saveResults() async {
     final prefs = await SharedPreferences.getInstance();
     if (results.length > 5) {
-      results.removeLast();
+      results.removeAt(0);
     }
     final resultsStrings = results.map((e) => e.toString()).toList();
     await prefs.setStringList('visual_memory_test_results', resultsStrings);
@@ -32,6 +29,9 @@ class VisualMemoryTestScreen extends StatefulWidget {
     await prefs.remove('visual_memory_test_results');
     results.clear();
   }
+
+  @override
+  _VisualMemoryTestScreenState createState() => _VisualMemoryTestScreenState();
 }
 
 class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
@@ -70,37 +70,28 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
   void _generateAndShowSquares() async {
     final allSquares = List.generate(_boardSize * _boardSize, (index) => index);
     allSquares.shuffle();
-
     final numSquaresToShow = min(_boardSize * _boardSize, _boardSize + 2);
     _litSquares = allSquares.take(numSquaresToShow).toList();
-
     setState(() {
       _isShowingSquares = true;
       _progress = 1.0;
     });
-
     _startProgressTimer();
-
     await Future.delayed(const Duration(seconds: 5));
-
     setState(() {
       _isShowingSquares = false;
     });
-
     _progressTimer?.cancel();
   }
 
   void _startProgressTimer() {
     _progressTimer?.cancel();
     _progress = 1.0;
-
     const duration = Duration(seconds: 5);
     const interval = Duration(milliseconds: 50);
-
     _progressTimer = Timer.periodic(interval, (timer) {
       final elapsed = timer.tick * interval.inMilliseconds;
       final progressPercent = 1.0 - (elapsed / duration.inMilliseconds);
-
       if (progressPercent <= 0.0) {
         setState(() {
           _progress = 0.0;
@@ -119,13 +110,11 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
 
   void _onSquareTapped(int index) {
     if (_testEnded || _isShowingSquares) return;
-
     if (_litSquares.contains(index)) {
       setState(() {
         _userInput.add(index);
         _correctlyIdentified.add(index);
       });
-
       final correctSquares = _litSquares.toSet();
       if (_userInput.difference(correctSquares).isNotEmpty) {
         _endTest();
@@ -150,7 +139,6 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
       _testEnded = true;
       _testStarted = false;
     });
-
     VisualMemoryTestScreen.results.add(_score.toDouble());
     await VisualMemoryTestScreen.saveResults();
   }
@@ -159,13 +147,11 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
     bool isLit = _litSquares.contains(index);
     bool isHighlighted = isLit && _isShowingSquares;
     bool isCorrectlyIdentified = _correctlyIdentified.contains(index);
-
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return GestureDetector(
       onTap: () => _onSquareTapped(index),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 20),
         margin: const EdgeInsets.all(4),
         width: 80,
         height: 80,
@@ -210,9 +196,7 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
     final lastScore = VisualMemoryTestScreen.results.isNotEmpty
         ? 'Latest Level: ${VisualMemoryTestScreen.results.last.toStringAsFixed(0)}'
         : 'No previous results';
-
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       decoration: BoxDecoration(
         gradient: isDarkMode
@@ -311,19 +295,18 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
 
   Widget _buildTestUI() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           "Current Level: $_score",
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
         ),
         const SizedBox(height: 20),
         if (_isShowingSquares) ...[
-          const Text(
+          Text(
             "Remember the highlighted squares!",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 20, color: isDarkMode ? Colors.white : Colors.black),
           ),
           const SizedBox(height: 10),
           Container(
@@ -346,9 +329,9 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
             ),
           ),
         ] else ...[
-          const Text(
+          Text(
             "Tap the squares you remember!",
-            style: TextStyle(fontSize: 20),
+            style: TextStyle(fontSize: 20, color: isDarkMode ? Colors.white : Colors.black),
           ),
         ],
         const SizedBox(height: 20),
@@ -362,17 +345,6 @@ class _VisualMemoryTestScreenState extends State<VisualMemoryTestScreen> {
                 _boardSize * _boardSize, (index) => _buildSquare(index)),
           ),
         ),
-        const SizedBox(height: 20),
-        if (_testEnded) ...[
-          Text(
-            "Test Ended. You reached level $_score.",
-            style: const TextStyle(fontSize: 20),
-          ),
-          ElevatedButton(
-            onPressed: _startTest,
-            child: const Text("Restart Test"),
-          ),
-        ],
       ],
     );
   }

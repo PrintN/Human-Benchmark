@@ -352,14 +352,12 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('$_currentLevel-Back',
-            style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold)),
+            style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black)),
         const SizedBox(height: 10),
         Text('Correct: $correctCounter   Wrong: $wrongCounter',
             style: TextStyle(
                 fontSize: 18, color: isDarkMode ? Colors.white : Colors.green)),
         const SizedBox(height: 10),
-        // Text('Max Possible Correct Answers: $maxPossibleCorrectAnswers',
-        //    style: const TextStyle(fontSize: 18, color: Colors.blue)),
         const SizedBox(height: 30),
         GridView.builder(
           shrinkWrap: true,
