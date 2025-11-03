@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:math';
-import 'package:flutter_tts/flutter_tts.dart';
+import 'package:just_audio/just_audio.dart';
 
 class DualNBackTestScreen extends StatefulWidget {
   @override
@@ -34,25 +34,18 @@ class DualNBackTestScreen extends StatefulWidget {
 }
 
 class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
-  final FlutterTts _tts = FlutterTts();
+  final AudioPlayer _audioPlayer = AudioPlayer();
   final List<String> _letters = [
-    'A',
     'B',
     'C',
-    'D',
     'F',
     'G',
-    'H',
-    'J',
     'K',
     'M',
-    'P',
     'R',
-    'S',
     'T',
     'U',
-    'W',
-    'Y'
+    'X',
   ];
   final List<Offset> _positions = [
     Offset(0.0, 0.0),
@@ -98,47 +91,15 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
       _sequence = [];
     });
     _generateNextStep();
-    _checkTTS();
   }
 
-  Future<void> _checkTTS() async {
-    final engines = await _tts.getEngines;
-    final languages = await _tts.getLanguages;
-
-    if (engines?.isEmpty ?? true) {
-      _showPopup("No TTS engine installed on this device.");
-    } else if (languages?.isEmpty ?? true) {
-      _showPopup("No TTS languages are available on this device.");
+  Future<void> _playLetterAudio(String letter) async {
+    try {
+      await _audioPlayer.setAsset('assets/letters/$letter.ogg');
+      await _audioPlayer.play();
+    } catch (e) {
+      print('Audio playback error: $e');
     }
-  }
-
-  void _showPopup(String message) {
-    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        title: Text(
-          "TTS Error",
-          style: TextStyle(color: isDarkMode ? Colors.white : Colors.black),
-        ),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-              setState(() {
-                _isTestRunning = false;
-              });
-            },
-            child: const Text("Ok"),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _playAudio(String letter) async {
-    await _tts.speak(letter);
   }
 
   void _checkMatch(bool isAudio, {bool isBoth = false}) {
@@ -179,7 +140,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
     });
   }
 
-  void _generateNextStep() async {
+  Future<void> _generateNextStep() async {
     if (!_isTestRunning) return;
 
     setState(() {
@@ -199,7 +160,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
       _sequence.add({'letter': newLetter, 'position': newPosition});
     });
 
-    await _playAudio(newLetter);
+    await _playLetterAudio(newLetter);
 
     setState(() {
       _currentStep++;
@@ -211,7 +172,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
     _generateNextStep();
   }
 
-  void _endTest() async {
+  Future<void> _endTest() async {
     setState(() {
       _isTestRunning = false;
     });
@@ -222,7 +183,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
 
   @override
   void dispose() {
-    _tts.stop();
+    _audioPlayer.dispose();
     super.dispose();
   }
 
@@ -324,7 +285,7 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
     );
   }
 
-  void _checkLevelCompletion() async {
+  Future<void> _checkLevelCompletion() async {
     int maxPossibleCorrectAnswers = 0;
 
     for (int i = _currentLevel; i < _stepsCompleted; i++) {
