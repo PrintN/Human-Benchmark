@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'dart:ui';
@@ -46,6 +47,8 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
   final Map<int, String> _selectedAnswers = {};
   final Map<int, bool> _answerStatus = {};
   int _currentQuestionIndex = 0;
+  Timer? _countdownTimer;
+  Duration? _remainingTime;
 
   @override
   void initState() {
@@ -106,11 +109,23 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
     setState(() {
       _isTestStarted = true;
     });
-
     _loadArticles().then((articles) {
       _selectRandomArticle(articles);
       setState(() {
-        _isTestStarted = true;
+        _remainingTime = const Duration(minutes: 5);
+      });
+      _countdownTimer?.cancel();
+      _countdownTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (!mounted) return;
+        setState(() {
+          _remainingTime = _remainingTime! - const Duration(seconds: 1);
+          if (_remainingTime! <= Duration.zero) {
+            timer.cancel();
+            if (!_isQuizStarted) {
+              _startQuiz();
+            }
+          }
+        });
       });
     }).catchError((error) {
       setState(() {
@@ -122,7 +137,9 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
   }
 
   void _startQuiz() {
+    _countdownTimer?.cancel();
     setState(() {
+      _remainingTime = null;
       _isQuizStarted = true;
       _correctAnswers = 0;
       _currentQuestionIndex = 0;
@@ -136,7 +153,6 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
     } catch (e) {
       print("Error saving results: $e");
     }
-
     setState(() {
       _isQuizStarted = false;
       _isTestStarted = false;
@@ -145,13 +161,13 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
       _selectedAnswers.clear();
       _answerStatus.clear();
       _currentQuestionIndex = 0;
+      _remainingTime = null;
     });
   }
 
   void _checkAnswer(
       String selectedAnswer, String correctAnswer, int questionIndex) {
     if (_selectedAnswers.containsKey(questionIndex)) return;
-
     setState(() {
       if (selectedAnswer == correctAnswer) {
         _answerStatus[questionIndex] = true;
@@ -161,6 +177,12 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
       }
       _selectedAnswers[questionIndex] = selectedAnswer;
     });
+  }
+
+  @override
+  void dispose() {
+    _countdownTimer?.cancel();
+    super.dispose();
   }
 
   @override
@@ -181,9 +203,7 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
     final lastScore = InfoRetentionScreen.results.isNotEmpty
         ? 'Latest Score: ${InfoRetentionScreen.results.last.toStringAsFixed(0)}'
         : 'No previous results';
-
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Container(
       decoration: BoxDecoration(
         gradient: isDarkMode
@@ -268,21 +288,28 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
 
   Widget _buildArticleContent() {
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (_remainingTime != null)
+              Center(
+                child: Text(
+                  'Time remaining: ${(_remainingTime!.inSeconds ~/ 60).toString().padLeft(2, '0')}:${(_remainingTime!.inSeconds % 60).toString().padLeft(2, '0')}',
+                  style: TextStyle(fontSize: 18, color: isDarkMode ? Colors.white : Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
+            if (_remainingTime != null) const SizedBox(height: 20),
             Text(
               _currentArticle['title'],
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 20),
             Text(
               _currentArticle['content'],
-              style: const TextStyle(fontSize: 16),
+              style: TextStyle(fontSize: 16, color: isDarkMode ? Colors.white : Colors.black),
             ),
             const SizedBox(height: 30),
             SizedBox(
@@ -290,11 +317,8 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
               child: ElevatedButton(
                 onPressed: _startQuiz,
                 style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 24.0, vertical: 12.0),
-                  backgroundColor: isDarkMode
-                      ? const Color.fromARGB(255, 24, 24, 24)
-                      : const Color(0xFF004D99),
+                  padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+                  backgroundColor: isDarkMode ? const Color.fromARGB(255, 24, 24, 24) : const Color(0xFF004D99),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30.0),
                   ),
@@ -322,10 +346,8 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
       _finishQuiz();
       return const Center(child: Text('No questions available'));
     }
-
     final question = _questions[_currentQuestionIndex];
     final isDarkMode = Theme.of(context).brightness == Brightness.dark;
-
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: ListView(
@@ -341,7 +363,6 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
             final isSelected = _selectedAnswers[questionIndex] == option;
             final isCorrect = option == question['answer'];
             final isAnswered = _selectedAnswers.containsKey(questionIndex);
-
             return ListTile(
               title: Text(option),
               leading: Radio<String>(
