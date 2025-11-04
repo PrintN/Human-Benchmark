@@ -191,7 +191,9 @@ class _DualNBackTestScreenState extends State<DualNBackTestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dual N-Back'),
+        title: const Text('Dual N-Back',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
       ),
       body: Center(
         child: _isTestRunning ? _buildTestUI() : _buildStartScreen(),

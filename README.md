@@ -1,5 +1,4 @@
 # Human Benchmark
-
 <div align="center">
 <a href="https://f-droid.org/packages/io.github.printn.humanbenchmark"><img src="https://img.shields.io/f-droid/v/io.github.printn.humanbenchmark?logo=f-droid&labelColor=1a1a1a"></a>
 <a href="https://github.com/PrintN/Human-Benchmark/blob/main/LICENSE">
@@ -19,16 +18,13 @@
 </div>
 
 ## Features
-
 - **Comprehensive Testing**: Test yourself in various areas, including Reaction Time, Typing, Chimp Test, Number Memory, Hearing Test, Verbal Memory, Sequence Memory, Visual Memory, Aim Training, Info Retention, and Intelligence Quotient.
 - **Statistics**: Compare your performance to others around the world.
 - **Share Your Statistics**: Easily share an image of your statistics with friends or on social media.
 - **Offline Access**: Enjoy the app fully without needing an internet connection; it's 100% offline.
 
 ## Acknowledgments
-
 Thanks to the Flutter community for providing great resources and support. This app is heavily inspired by the original [Human Benchmark](https://humanbenchmark.com) website.
 
 ## License
-
 This project is licensed under the GNU General Public License v3.0 License. For more details, please read the [LICENSE](LICENSE) file.

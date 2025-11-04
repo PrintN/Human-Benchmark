@@ -1,0 +1,6 @@
+Change(s):
+- Codebase: Cleaned and optimized  
+- Reaction Time: Fixed tap-hold exploit
+- Dual N-Back: Fixed TTS on GrapheneOS & LineageOS  
+- Info Retention: Updated articles/questions + 5-minute read timer  
+- Android: Added themed app icon support

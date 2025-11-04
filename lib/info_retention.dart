@@ -189,8 +189,10 @@ class _InfoRetentionScreenState extends State<InfoRetentionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Info Retention'),
-      ),
+        title: const Text('Info Retention',
+            style: TextStyle(
+                fontFamily: 'RobotoMono', fontWeight: FontWeight.bold)),
+        ),
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : !_isTestStarted

@@ -2,7 +2,7 @@ name: humanbenchmark
 description: "An app to test your abilities."
 publish_to: 'none'
 
-version: 1.0.9+19
+version: 1.1.0+20
 
 environment:
   sdk: ^3.5.0
@@ -12,11 +12,10 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.8
   fl_chart: ^0.69.0
-  shared_preferences: ^2.3.2
+  shared_preferences: ^2.4.0
   provider: ^6.1.0
   share_plus: ^10.0.2
-  just_audio: ^0.9.37
-  flutter_tts: ^3.2.2
+  just_audio: ^0.9.46
   path_provider: any
 dev_dependencies:
   flutter_test:
@@ -28,25 +27,30 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/sentences.json
-    - assets/articles.json
-    - assets/words.json
-    - assets/human-benchmark.webp
-    - assets/human-benchmark-no-background.webp
-    - assets/target.webp
-    - assets/frequencies/250.mp3
-    - assets/frequencies/500.mp3
-    - assets/frequencies/1000.mp3
-    - assets/frequencies/2000.mp3
-    - assets/frequencies/4000.mp3
-    - assets/frequencies/8000.mp3
-    - assets/frequencies/10000.mp3
-    - assets/frequencies/12000.mp3
-    - assets/frequencies/14000.mp3
-    - assets/frequencies/16000.mp3
+    - assets/
+    - assets/frequencies/250.ogg
+    - assets/frequencies/500.ogg
+    - assets/frequencies/1000.ogg
+    - assets/frequencies/2000.ogg
+    - assets/frequencies/4000.ogg
+    - assets/frequencies/8000.ogg
+    - assets/frequencies/10000.ogg
+    - assets/frequencies/12000.ogg
+    - assets/frequencies/14000.ogg
+    - assets/frequencies/16000.ogg
     - assets/frequencies/18000.wav
     - assets/frequencies/20000.wav
     - assets/frequencies/22000.wav
+    - assets/letters/B.ogg
+    - assets/letters/C.ogg
+    - assets/letters/F.ogg
+    - assets/letters/G.ogg
+    - assets/letters/K.ogg
+    - assets/letters/M.ogg
+    - assets/letters/R.ogg
+    - assets/letters/T.ogg
+    - assets/letters/U.ogg
+    - assets/letters/X.ogg
     - assets/iq/answers.json
     - assets/iq/1/test1.webp
     - assets/iq/1/1-1.webp
@@ -243,5 +247,7 @@ flutter:
 
 flutter_icons:
   android: true
-  ios: true
   image_path: "assets/human-benchmark.webp"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/human-benchmark.webp"
+  adaptive_icon_monochrome: "assets/human-benchmark-no-background.webp"
