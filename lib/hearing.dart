@@ -67,7 +67,7 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
     _message = "Playing tone at ${frequency / 1000} KHz";
     setState(() {});
 
-    String mp3Path = 'assets/frequencies/$frequency.mp3';
+    String oggPath = 'assets/frequencies/$frequency.ogg';
     String wavPath = 'assets/frequencies/$frequency.wav';
     String assetPath;
 
@@ -75,8 +75,8 @@ class _HearingTestScreenState extends State<HearingTestScreen> {
       await _audioPlayer.stop();
 
       assetPath = await _audioPlayer
-          .setAsset(mp3Path)
-          .then((_) => mp3Path)
+          .setAsset(oggPath)
+          .then((_) => oggPath)
           .catchError((_) => wavPath);
 
       if (assetPath == wavPath) {
